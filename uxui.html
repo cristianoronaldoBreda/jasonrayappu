@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="nl" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>UX/UI Design — Jason CMD Portfolio</title>
+  <meta name="description" content="UX/UI projecten van Jason Rayappu — van onderzoek tot prototype.">
+  <meta name="theme-color" content="#fc9403"/>
+
+  <style>
+    :root{
+      --accent:#fc9403; 
+      --bg:#0e0e10; 
+      --card:#15161a; 
+      --muted:#9aa3ad; 
+      --text:#eef2f6;
+      --radius:14px;
+      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
+      --shadow-md:0 8px 24px rgba(2,6,23,.35);
+      --heading:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body);scroll-behavior:smooth}
+    img{max-width:100%;display:block}
+
+    /* Topbar */
+    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
+    .topbar-inner{position:relative;height:100%}
+    .nav{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
+      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
+    }
+    .nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:700;
+      font-size:14px;
+      padding:8px 12px;
+      border-radius:10px;
+      transition:color .2s, background .2s, transform .2s;
+    }
+    .nav a:hover,
+    .nav a.active{
+      color:var(--accent);
+      background:rgba(252,148,3,.12);
+    }
+    .logo-right{
+      position:absolute;right:20px;top:50%;transform:translateY(-50%);
+      display:flex;align-items:center;justify-content:center;pointer-events:auto;
+    }
+    .logo-right img{
+      height:56px;width:auto;
+      filter:drop-shadow(0 3px 10px rgba(0,0,0,.35));
+      transition:transform .25s ease, opacity .25s ease;
+    }
+    .logo-right:hover img{transform:scale(1.04);opacity:.95}
+
+    /* Layout */
+    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
+    .panel{
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      border-radius:var(--radius);
+      padding:36px;
+      box-shadow:var(--shadow-lg);
+      width:min(1100px,92vw);
+      position:relative;
+      overflow:hidden;
+    }
+    h1,h2,h3{font-family:var(--heading);margin-top:0}
+    p{color:var(--muted);line-height:1.6}
+    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
+
+    .ux-grid{
+      display:grid;
+      grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+      gap:28px;
+      align-items:start;
+      margin-bottom:36px;
+    }
+    .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+    .badge{
+      background:rgba(255,255,255,.06);
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:var(--muted);
+      border:1px solid rgba(255,255,255,.1);
+    }
+
+    .ui-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:10px}
+    .ui-tile{
+      background:var(--card);
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.06);
+      overflow:hidden;
+      box-shadow:var(--shadow-md);
+      cursor:pointer;
+      transition:transform .2s ease, box-shadow .2s ease;
+    }
+    .ui-tile:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(0,0,0,.6);}
+    .ui-tile img{width:100%;height:220px;object-fit:cover;display:block}
+    .ui-tile .meta{padding:10px 12px}
+    .ui-tile h4{margin:0 0 4px;font-size:14px}
+    .ui-tile p{margin:0;font-size:12px;color:var(--muted)}
+
+    .prototype-card{
+      border-radius:14px;
+      background:radial-gradient(circle at 0 0, rgba(252,148,3,.22), transparent 55%), rgba(0,0,0,.45);
+      padding:18px 18px 16px;
+      display:grid;
+      grid-template-columns:minmax(0,1.2fr) minmax(0,180px);
+      gap:16px;
+      align-items:center;
+      margin-top:8px;
+    }
+    .prototype-card img{border-radius:12px;width:100%;height:auto;object-fit:contain;background:#000}
+    .prototype-card small{display:block;color:rgba(255,255,255,.7);margin-bottom:4px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
+    .prototype-card h3{margin:0 0 6px;font-size:18px}
+    .prototype-card p{margin:0;font-size:13px;color:#e7ecf3}
+
+    .orb-bg{
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 10% 0%, rgba(252,148,3,.35), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(252,148,3,.25), transparent 55%);
+      opacity:.35;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    hr.section-divider{
+      border:none;
+      border-top:1px solid rgba(255,255,255,.08);
+      margin:30px 0;
+    }
+
+    @media (max-width:960px){
+      main{padding:92px 20px 32px}
+      .ux-grid{grid-template-columns:1fr}
+      .prototype-card{grid-template-columns:1fr}
+    }
+
+    /* Lightbox voor grote afbeeldingen */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.85);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:300;
+      padding:20px;
+    }
+    .lightbox.open{display:flex}
+    .lightbox-inner{
+      max-width:min(1000px,95vw);
+      max-height:90vh;
+      position:relative;
+    }
+    .lightbox-inner img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      border-radius:16px;
+      box-shadow:0 18px 60px rgba(0,0,0,.8);
+      background:#000;
+    }
+    .lightbox-close{
+      position:absolute;
+      top:-10px;
+      right:-10px;
+      background:#111;
+      border:none;
+      color:#fff;
+      font-size:22px;
+      line-height:1;
+      width:32px;
+      height:32px;
+      border-radius:999px;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,0,0,.6);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lb-close" aria-label="Sluiten">×</button>
+      <img id="lb-img" src="" alt="">
+    </div>
+  </div>
+
+  <div class="topbar" role="navigation" aria-label="Hoofdnavigatie">
+    <div class="topbar-inner">
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="wie-ben-ik.html">Wie ben ik</a>
+        <a href="uxui.html" class="active">UX/UI Design</a>
+        <a href="fotografie.html">Fotografie</a>
+        <a href="film.html">Film</a>
+        <a href="arduino.html">Arduino</a>
+      </nav>
+      <a class="logo-right" href="index.html" aria-label="Terug naar Home">
+        <img src="logo.png" alt="Logo Jason">
+      </a>
+    </div>
+  </div>
+
+  <main>
+    <section class="panel">
+      <div class="orb-bg" aria-hidden="true"></div>
+
+      <h1>UX/UI Design</h1>
+      <p class="tagline">Van eerste idee tot klikbaar prototype in Figma.</p>
+
+      <!-- ========= PROTOTYPE 1: Hardloop-app ========= -->
+      <div class="ux-grid">
+        <!-- Tekst links -->
+        <div>
+          <div class="badge-row">
+            <span class="badge">Figma</span>
+            <span class="badge">User flows</span>
+            <span class="badge">Design systems</span>
+            <span class="badge">Prototyping</span>
+          </div>
+
+          <h2>Hardloop-app — bewegen leuk en haalbaar maken</h2>
+          <p>
+            Voor een schoolproject ontwierp ik een hardloop-app die mensen stimuleert om vaker te bewegen.
+            De app combineert duidelijke progressie, laagdrempelige uitdagingen en een sociale component met clubs en rankings.
+          </p>
+          <p>
+            Ik begon met de centrale vraag: <em>“Waarom haken mensen af?”</em> Voor dit project heb ik onderzoek gedaan door middel van interviews. Uit deze gesprekken bleek dat veel mensen een stok achter de deur misten en behoefte hadden aan een uitdagend gevoel om gemotiveerd te blijven.
+
+Op basis van deze inzichten werkte ik user stories en user flows uit. Vervolgens maakte ik wireframes en vertaalde deze uiteindelijk naar een high-fidelity prototype in Figma.
+          </p>
+
+          <h3>Focus in dit ontwerp</h3>
+          <ul style="padding-left:18px;color:var(--muted);font-size:14px;line-height:1.6">
+            <li>Heldere navigatie en states (empty, loading, error).</li>
+            <li>Motivatie via microcopy, progressie en feedback.</li>
+            <li>Bekende patronen met een eigen visuele identiteit.</li>
+          </ul>
+        </div>
+
+        <!-- UI-tiles rechts -->
+        <div>
+          <div class="ui-tiles">
+            <article class="ui-tile">
+              <img src="homescherm.png" alt="Homescreen van de hardloop-app" data-full="homescherm.png">
+              <div class="meta">
+                <h4>Home</h4>
+                <p>Direct overzicht van kilometers, doelen en actieve challenges.</p>
+              </div>
+            </article>
+            <article class="ui-tile">
+              <img src="clubschern.png" alt="Club/community scherm van de hardloop-app" data-full="clubschern.png">
+              <div class="meta">
+                <h4>Club</h4>
+                <p>Teams, rankings en gezamenlijke runs voor extra motivatie.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+
+      <div class="prototype-card">
+        <div>
+          <small>Prototype</small>
+          <h3>Klikbare flow in Figma</h3>
+          <p>
+            De complete start–tot–finish run-flow is uitgewerkt in een interactief prototype:
+            van het kiezen van een challenge tot het afronden van een sessie en het delen van resultaat.
+          </p>
+        </div>
+        <div>
+          <img src="Flow%201@512p-25fps.gif" alt="Gif van de hardloop-app prototype flow" data-full="Flow%201@512p-25fps.gif">
+        </div>
+      </div>
+
+      <!-- Scheiding voor tweede app -->
+      <hr class="section-divider">
+
+      <!-- ========= PROTOTYPE 2: Tweede app (plaats je eigen Figma werk) ========= -->
+      <div class="ux-grid">
+   
+
+       
+
+        
+    </section>
+  </main>
+
+  <script>
+    // Lightbox logic voor het vergroten van UI-screens
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lb-img');
+    const lbClose = document.getElementById('lb-close');
+
+    function openLightbox(src, alt){
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lightbox.classList.add('open');
+    }
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      lbImg.src = '';
+      lbImg.alt = '';
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => {
+      if(e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape') closeLightbox();
+    });
+
+    // Alle UI-tiles klikbaar maken
+    document.querySelectorAll('.ui-tile img, .prototype-card img').forEach(img => {
+      img.style.cursor = 'zoom-in';
+      img.addEventListener('click', () => {
+        const src = img.getAttribute('data-full') || img.currentSrc || img.src;
+        openLightbox(src, img.alt);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!doctype html>
+<html lang="nl" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Fotografie — Jason CMD Portfolio</title>
+  <meta name="description" content="Conceptuele fotografie en beeldexperimenten van Jason Rayappu.">
+  <meta name="theme-color" content="#fc9403"/>
+
+  <style>
+    :root{
+      --accent:#fc9403; 
+      --bg:#0e0e10; 
+      --card:#15161a; 
+      --muted:#9aa3ad; 
+      --text:#eef2f6;
+      --radius:14px;
+      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
+      --shadow-md:0 8px 24px rgba(2,6,23,.35);
+      --heading:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body)}
+    img{max-width:100%;display:block}
+
+    /* Topbar */
+    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
+    .topbar-inner{position:relative;height:100%}
+    .nav{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
+      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
+    }
+    .nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:700;
+      font-size:14px;
+      padding:8px 12px;
+      border-radius:10px;
+      transition:color .2s, background .2s, transform .2s;
+    }
+    .nav a:hover,
+    .nav a.active{
+      color:var(--accent);
+      background:rgba(252,148,3,.12);
+    }
+    .logo-right{position:absolute;right:20px;top:50%;transform:translateY(-50%);pointer-events:auto}
+    .logo-right img{height:56px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35));transition:.25s}
+    .logo-right:hover img{transform:scale(1.04);opacity:.95}
+
+    /* Layout */
+    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
+    .panel{
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      border-radius:var(--radius);
+      padding:36px;
+      box-shadow:var(--shadow-lg);
+      width:min(1100px,92vw);
+      position:relative;
+      overflow:hidden;
+    }
+    h1,h2,h3{font-family:var(--heading);margin-top:0}
+    p{color:var(--muted);line-height:1.6}
+    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
+
+    .photo-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
+      gap:28px;
+      align-items:start;
+    }
+
+    /* Grote slideshow links */
+    .featured{
+      border-radius:18px;
+      overflow:hidden;
+      position:relative;
+      box-shadow:var(--shadow-md);
+      background:#000;
+      border:1px solid rgba(255,255,255,.18);
+      cursor:pointer;
+    }
+    .featured img{
+      width:100%;
+      height:100%;
+      max-height:520px;
+      object-fit:cover;
+      display:block;
+      transition:opacity .4s ease;
+    }
+    .featured-caption{
+      position:absolute;
+      left:16px;bottom:26px;right:16px;
+      background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.85));
+      padding:12px 14px;
+      border-radius:12px;
+      font-size:13px;
+    }
+    .featured-caption h3{margin:0 0 4px;font-size:15px}
+    .featured-caption p{margin:0;font-size:13px;color:#d7dde5}
+
+    /* Progress rand / bar onderin */
+    .featured-progress{
+      position:absolute;
+      left:16px;
+      right:16px;
+      bottom:10px;
+      height:3px;
+      border-radius:999px;
+      background:rgba(255,255,255,.15);
+      overflow:hidden;
+    }
+    .featured-progress-bar{
+      height:100%;
+      width:0;
+      background:var(--accent);
+      border-radius:inherit;
+      transition:width 5s linear;
+    }
+
+    /* Lijst rechts */
+    .mini-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+      margin-top:6px;
+    }
+    .mini-card{
+      display:grid;
+      grid-template-columns:120px minmax(0,1fr);
+      gap:12px;
+      align-items:center;
+      background:var(--card);
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.06);
+      padding:10px;
+      box-shadow:var(--shadow-md);
+      cursor:pointer;
+    }
+    .mini-card img{
+      width:100%;
+      height:90px;
+      object-fit:cover;
+      border-radius:10px;
+    }
+    .mini-card h4{margin:0 0 4px;font-size:14px}
+    .mini-card p{margin:0;font-size:12px;color:var(--muted)}
+
+    .orb-bg{
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0 40%, rgba(252,148,3,.3), transparent 55%),
+        radial-gradient(circle at 90% 0%, rgba(252,148,3,.25), transparent 55%);
+      opacity:.38;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    /* Lightbox */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.85);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      z-index:300;
+      padding:20px;
+    }
+    .lightbox.open{display:flex}
+    .lightbox-inner{
+      max-width:min(1000px,95vw);
+      max-height:90vh;
+      position:relative;
+    }
+    .lightbox-inner img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      border-radius:16px;
+      box-shadow:0 18px 60px rgba(0,0,0,.8);
+      background:#000;
+    }
+    .lightbox-close{
+      position:absolute;
+      top:-10px;
+      right:-10px;
+      background:#111;
+      border:none;
+      color:#fff;
+      font-size:22px;
+      line-height:1;
+      width:32px;
+      height:32px;
+      border-radius:999px;
+      cursor:pointer;
+      box-shadow:0 6px 18px rgba(0,0,0,.6);
+    }
+
+    @media (max-width:960px){
+      main{padding:92px 20px 32px}
+      .photo-layout{grid-template-columns:1fr}
+      .mini-card{grid-template-columns:100px minmax(0,1fr)}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lb-close" aria-label="Sluiten">×</button>
+      <img id="lb-img" src="" alt="">
+    </div>
+  </div>
+
+  <div class="topbar">
+    <div class="topbar-inner">
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="wie-ben-ik.html">Wie ben ik</a>
+        <a href="uxui.html">UX/UI Design</a>
+        <a href="fotografie.html" class="active">Fotografie</a>
+        <a href="film.html">Film</a>
+        <a href="arduino.html">Arduino</a>
+      </nav>
+      <a class="logo-right" href="index.html"><img src="logo.png" alt="Logo Jason"></a>
+    </div>
+  </div>
+
+  <main>
+    <section class="panel">
+      <div class="orb-bg" aria-hidden="true"></div>
+
+      <h1>Fotografie</h1>
+      <p class="tagline">Beelden die vragen oproepen in plaats van antwoorden geven.</p>
+
+      <div class="photo-layout">
+        <!-- Linker kant: SLIDESHOW -->
+        <div class="featured">
+          <img id="featured-img"
+               src="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG"
+               alt="Demonstratiefoto met neussonde als modeaccessoire"
+               data-full="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG">
+          <div class="featured-caption">
+            <h3 id="featured-title">Demonstratiefoto — zorg als mode</h3>
+            <p id="featured-text">
+              Een ‘hippe’ neussonde als modeaccessoire. Door het beeld esthetisch te maken,
+              schuurt het tussen kwetsbaarheid, identiteit en esthetiek.
+            </p>
+          </div>
+          <div class="featured-progress">
+            <div class="featured-progress-bar" id="featured-progress-bar"></div>
+          </div>
+        </div>
+
+        <!-- Rechter kant: tekst + kleinere kaarten -->
+        <div>
+          <h2>Conceptuele beelden</h2>
+          <p>
+            <em>Fotografie is een van mijn grootste passies. Ik heb niet altijd een dure camera nodig om een goed beeld te maken </em><br><br/> voor mij draait het vooral om het verhaal achter de foto. Toch kan ik zeker ook werken met professionele camera’s.
+
+            In mijn fotografie zoek ik naar beelden die iets losmaken bij de kijker. Geen perfecte plaatjes, maar foto’s die je laten twijfelen, prikkelen of je afvragen of je je er eigenlijk wel prettig bij voelt. Daarbij geloof ik dat kleur en warmte al een emotie kunnen oproepen, zonder dat er letterlijk mensen of gezichtsuitdrukkingen te zien hoeven zijn. Een foto kan dus voelen, zonder dat hij iets hoeft te zeggen.
+          <p>
+            Ik heb jarenlang actief fotografie beoefend en daardoor veel ervaring opgedaan in het maken en beoordelen van beelden. Inmiddels deel ik die kennis ook met anderen binnen de community, waar ik mensen help hun eigen fotografievaardigheden te ontwikkelen.
+          </p>
+
+          <h3>Series & experimenten</h3>
+          <div class="mini-grid">
+            <!-- Maagsonde in het lijstje -->
+            <article class="mini-card">
+              <img src="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG"
+                   alt="Demonstratiefoto met neussonde als modeaccessoire"
+                   data-full="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG">
+              <div>
+                <h4>Demonstratiefoto</h4>
+                <p>
+                  De medische neussonde als mode-item: een beeld dat tegelijk mooi
+                  én ongemakkelijk mag voelen.
+                </p>
+              </div>
+            </article>
+
+            <article class="mini-card">
+              <img src="Scherm­afbeelding 2025-10-27 om 15.55.26.png"
+                   alt="AI-beeld met gebroken potlood"
+                   data-full="Scherm­afbeelding 2025-10-27 om 15.55.26.png">
+              <div>
+                <h4>AI & creativiteit</h4>
+                <p>
+                  Het gebroken potlood staat voor de botsing tussen menselijke verbeelding
+                  en generatieve AI. Breekt technologie creativiteit af, of vormt het die opnieuw?
+                </p>
+              </div>
+            </article>
+
+            <article class="mini-card">
+                <img src="kerk.jpg"
+                alt="AI-beeld met gebroken potlood"
+                data-full="kerk.jpg">
+              <div>
+                <h4>Kerkdienst</h4>
+                <p>
+                    Dit is een foto die ik heb gemaakt in de kerk. Voor mij is het een krachtig beeld dat laat zien waar de jongen in gelooft. Tegelijkertijd weerspiegelt het ook iets waar ik zelf voor sta: vertrouwen, overtuiging en toewijding zonder woorden te hoeven gebruiken.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    // ------------ SLIDESHOW ------------
+    const slides = [
+      {
+        src: "2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG",
+        alt: "Demonstratiefoto met neussonde als modeaccessoire",
+        title: "Demonstratiefoto — zorg als mode",
+        text: "Een ‘hippe’ neussonde als modeaccessoire. Door het beeld esthetisch te maken, schuurt het tussen kwetsbaarheid, identiteit en esthetiek."
+      },
+      {
+        src: "Scherm­afbeelding 2025-10-27 om 15.55.26.png",
+        alt: "AI-beeld met gebroken potlood",
+        title: "AI & creativiteit",
+        text: "Het gebroken potlood verbeeldt de botsing tussen menselijke verbeelding en generatieve AI: breekt technologie creativiteit af, of vormt het die opnieuw?"
+      },
+     
+      {
+        src: "kerk.jpg",
+        alt: "Jesus killed your anxiety",
+       title: "Kerk portret",
+       text: "Een krachtige boodschap."
+       }
+    ];
+
+    const featuredImg   = document.getElementById('featured-img');
+    const featuredTitle = document.getElementById('featured-title');
+    const featuredText  = document.getElementById('featured-text');
+    const progressBar   = document.getElementById('featured-progress-bar');
+
+    let currentSlide = 0;
+
+    function startProgress(){
+      if(!progressBar) return;
+      // reset animatie
+      progressBar.style.transition = 'none';
+      progressBar.style.width = '0%';
+      // kleine delay zodat de browser het reset registreert
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+          progressBar.style.transition = 'width 5s linear';
+          progressBar.style.width = '100%';
+        });
+      });
+    }
+
+    function showSlide(index){
+      if(!slides.length) return;
+      const s = slides[index];
+
+      featuredImg.style.opacity = 0;
+      setTimeout(() => {
+        featuredImg.src = s.src;
+        featuredImg.alt = s.alt;
+        featuredImg.setAttribute('data-full', s.src);
+        featuredTitle.textContent = s.title;
+        featuredText.textContent = s.text;
+        featuredImg.style.opacity = 1;
+      }, 200);
+
+      startProgress();
+    }
+
+    // start op eerste slide
+    showSlide(currentSlide);
+
+    // elke 5s volgende slide
+    if(slides.length > 1){
+      setInterval(() => {
+        currentSlide = (currentSlide + 1) % slides.length;
+        showSlide(currentSlide);
+      }, 5000);
+    }
+
+    // ------------ LIGHTBOX (grote weergave) ------------
+    const lightbox = document.getElementById('lightbox');
+    const lbImg    = document.getElementById('lb-img');
+    const lbClose  = document.getElementById('lb-close');
+
+    function openLightbox(src, alt){
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lightbox.classList.add('open');
+    }
+    function closeLightbox(){
+      lightbox.classList.remove('open');
+      lbImg.src = '';
+      lbImg.alt = '';
+    }
+
+    lbClose.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => {
+      if(e.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', e => {
+      if(e.key === 'Escape') closeLightbox();
+    });
+
+    // Klik op grote foto
+    featuredImg.addEventListener('click', () => {
+      const src = featuredImg.getAttribute('data-full') || featuredImg.src;
+      openLightbox(src, featuredImg.alt);
+    });
+
+    // Klik op mini-kaarten
+    document.querySelectorAll('.mini-card img').forEach(img => {
+      img.addEventListener('click', e => {
+        e.stopPropagation();
+        const src = img.getAttribute('data-full') || img.src;
+        openLightbox(src, img.alt);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="nl" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Arduino — Jason CMD Portfolio</title>
+  <meta name="description" content="Arduino project Mirror Mask van Jason Rayappu.">
+  <meta name="theme-color" content="#fc9403"/>
+
+  <style>
+    :root{
+      --accent:#fc9403; 
+      --bg:#0e0e10; 
+      --card:#15161a; 
+      --muted:#9aa3ad; 
+      --text:#eef2f6;
+      --radius:14px;
+      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
+      --shadow-md:0 8px 24px rgba(2,6,23,.35);
+      --heading:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body)}
+    img,video{max-width:100%;display:block}
+
+    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
+    .topbar-inner{position:relative;height:100%}
+    .nav{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
+      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
+    }
+    .nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:700;
+      font-size:14px;
+      padding:8px 12px;
+      border-radius:10px;
+      transition:color .2s, background .2s, transform .2s;
+    }
+    .nav a:hover,
+    .nav a.active{
+      color:var(--accent);
+      background:rgba(252,148,3,.12);
+    }
+    .logo-right{position:absolute;right:20px;top:50%;transform:translateY(-50%);pointer-events:auto}
+    .logo-right img{height:56px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35));transition:.25s}
+    .logo-right:hover img{transform:scale(1.04);opacity:.95}
+
+    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
+    .panel{
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      border-radius:var(--radius);
+      padding:36px;
+      box-shadow:var(--shadow-lg);
+      width:min(1000px,92vw);
+      position:relative;
+      overflow:hidden;
+    }
+    h1,h2,h3{font-family:var(--heading);margin-top:0}
+    p{color:var(--muted);line-height:1.6}
+    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
+
+    .arduino-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);
+      gap:26px;
+      align-items:start;
+    }
+
+    .video-wrap{
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 10px 36px rgba(0,0,0,.6);
+      background:#000;
+    }
+    .video-wrap video{width:100%;height:auto;display:block}
+
+    .specs{list-style:none;padding:0;margin:10px 0 0;font-size:13px;color:var(--muted)}
+    .specs li{margin-bottom:4px}
+    .spec-label{font-weight:600;color:#dde4ee}
+
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
+    .pill{
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.16);
+      padding:6px 11px;
+      border-radius:999px;
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.06em;
+      color:#f3f5fb;
+    }
+
+    .orb-bg{
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 20% 0, rgba(252,148,3,.28), transparent 55%),
+        radial-gradient(circle at 100% 100%, rgba(252,148,3,.22), transparent 55%);
+      opacity:.35;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    @media (max-width:960px){
+      main{padding:92px 20px 32px}
+      .arduino-layout{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="wie-ben-ik.html">Wie ben ik</a>
+        <a href="uxui.html">UX/UI Design</a>
+        <a href="fotografie.html">Fotografie</a>
+        <a href="film.html">Film</a>
+        <a href="arduino.html" class="active">Arduino</a>
+      </nav>
+      <a class="logo-right" href="index.html"><img src="logo.png" alt="Logo Jason"></a>
+    </div>
+  </div>
+
+  <main>
+    <section class="panel">
+      <div class="orb-bg" aria-hidden="true"></div>
+
+      <h1>Arduino — Mirror Mask</h1>
+      <p class="tagline">Technologie als spiegel van gedrag en zintuigen.</p>
+
+      <div class="arduino-layout">
+        <!-- Video links -->
+        <div>
+          <div class="video-wrap">
+            <video controls muted preload="metadata" poster="PHOTO-2024-03-22-22-48-58.jpg">
+              <source src="VIDEO-2024-03-21-23-23-49.mp4" type="video/mp4">
+              Je browser ondersteunt deze video niet.
+            </video>
+          </div>
+          <ul class="specs">
+            <li><span class="spec-label">Project:</span> Mirror Mask</li>
+            <li><span class="spec-label">Tech:</span> Arduino, leds, sensoren, spiegelmateriaal</li>
+            <li><span class="spec-label">Context:</span> Installatie voor gebruik in een feestsetting</li>
+          </ul>
+        </div>
+
+        <!-- Uitleg rechts -->
+        <div>
+          <div class="pill-row">
+            <span class="pill">Interactie</span>
+            <span class="pill">Wearable</span>
+            <span class="pill">Installatie</span>
+          </div>
+
+          <h2>Een masker dat je terugkijkt</h2>
+          <p>
+            Tijdens dit project ontwikkelden we met Arduino een interactief masker dat zintuigen versterkt, bedoeld voor gebruik in een feestelijke setting. Het masker reageert op licht en beweging, waardoor je letterlijk verandert in een soort levende spiegel.<br><br>
+
+            We begonnen met onderzoek naar hoe mensen op elkaar reageren bij contact, en hoe het lichaam reageert wanneer je iemand leuk vindt of wanneer er een klik ontstaat. Deze inzichten hebben we verwerkt in ons ontwerp.
+            
+            <br><br>Ik was verantwoordelijk voor het bouwen en coderen van het masker. Ik had veel plezier tijdens het experimenteren met verschillende sensoren. Vooral het testgedeelte vond ik het leukst: juist tijdens het uitproberen ontstonden nieuwe ideeën. Zo kwam ik bijvoorbeeld op het idee om ademhaling te meten en die visueel weer te geven als extra vorm van interactie.
+          </p>
+
+          <p>
+            We gebruikten echte spiegels: de technologie spiegelt de persoon tegenover je. Omdat het ontwerp uit
+            twee maskers bestaat, keert de ervaring altijd terug naar je eigen gedrag, blik en zintuigen.
+          </p>
+
+          <h3>Wat ik hier heb geleerd</h3>
+          <ul style="padding-left:18px;font-size:14px;color:var(--muted);line-height:1.6">
+            <li>Omgaan met sensoren, LEDs en Arduino-code in een fysiek object.</li>
+            <li>Hoe je een interactie ontwerpt die <em>ook zonder uitleg</em> begrepen wordt.</li>
+            <li>Dat techniek veel krachtiger wordt als er een sterk concept achter zit.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

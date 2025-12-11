@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="nl" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Wie ben ik — Jason CMD Portfolio</title>
+  <meta name="theme-color" content="#fc9403"/>
+  <style>
+    :root{
+      --accent:#fc9403; 
+      --bg:#0e0e10; 
+      --card:#15161a; 
+      --muted:#9aa3ad; 
+      --text:#eef2f6;
+      --radius:14px;
+      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
+      --shadow-md:0 8px 24px rgba(2,6,23,.35);
+      --heading:'Poppins',system-ui,sans-serif;
+      --body:'Inter',system-ui,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body);scroll-behavior:smooth}
+    img{max-width:100%;display:block;border-radius:10px}
+
+    /* Topbar */
+    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
+    .topbar-inner{position:relative;height:100%}
+    .nav{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
+      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
+    }
+    .nav a{
+      color:var(--text);text-decoration:none;font-weight:700;font-size:14px;
+      padding:8px 12px;border-radius:10px;transition:color .2s, background .2s;
+    }
+    .nav a:hover,.nav a.active{color:var(--accent);background:rgba(252,148,3,.12)}
+    .logo-right{position:absolute;right:20px;top:50%;transform:translateY(-50%);pointer-events:auto}
+    .logo-right img{height:56px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35))}
+
+    /* Layout */
+    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
+    .panel{
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      border-radius:var(--radius);padding:36px;box-shadow:var(--shadow-lg);
+      width:min(900px,92vw);position:relative;overflow:hidden;
+    }
+    h1,h2,h3{font-family:var(--heading);margin-top:0}
+    p{color:var(--muted);line-height:1.6}
+    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
+    .two-col{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:start}
+    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
+      padding:7px 12px;border-radius:999px;font-size:12px;font-weight:600}
+    .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:6px}
+    .btn{display:inline-flex;background:var(--accent);color:#111;padding:10px 16px;border-radius:12px;font-weight:800;text-decoration:none;margin-top:18px}
+
+    /* Foto + loader */
+    .about-photo{position:relative;background:rgba(0,0,0,.18);padding:10px;border-radius:12px;box-shadow:var(--shadow-md)}
+    .about-bar{position:absolute;left:0;bottom:12px;height:4px;width:0%;background:var(--accent);border-radius:4px;transition:width 5s linear}
+
+    /* Onderste oranje vlak - precies vanaf de streep */
+    .extra-block{
+      margin:28px -36px -36px;         /* naar buiten trekken tot de randen van de panel */
+      padding:20px 36px 28px;
+      border-top:1px solid rgba(255,255,255,.08);   /* de streep */
+      background:linear-gradient(
+        180deg,
+        rgba(252,148,3,.16) 0%,
+        rgba(252,148,3,.04) 60%,
+        rgba(0,0,0,.0) 100%
+      );
+      border-radius:0 0 var(--radius) var(--radius);
+    }
+
+    @media (max-width:900px){
+      .two-col{grid-template-columns:1fr}
+      main{padding:92px 20px 32px}
+      .extra-block{margin:24px -20px -32px;padding:18px 20px 26px}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navigatie -->
+  <div class="topbar"><div class="topbar-inner">
+    <nav class="nav">
+      <a href="index.html">Home</a>
+      <a href="wie-ben-ik.html" class="active">Wie ben ik</a>
+      <a href="uxui.html">UX/UI Design</a>
+      <a href="fotografie.html">Fotografie</a>
+      <a href="film.html">Film</a>
+      <a href="arduino.html">Arduino</a>
+    </nav>
+    <a class="logo-right" href="index.html"><img src="logo.png" alt="Logo Jason"></a>
+  </div></div>
+
+  <main>
+    <section class="panel">
+      <h1>Wie ben ik</h1>
+      <p class="tagline">Jason Rayappu — CMD student met een liefde voor design, film en technologie.</p>
+
+      <div class="two-col">
+        <div>
+          <h2>Verhalen, vorm en techniek</h2>
+          <p>Ik ben Jason, 23 jaar en ik kom uit Oosterhout. Ik studeer Communicatie & Multimedia Design (CMD) en breng graag verhalen tot leven. Mijn opleidingstraject begon op de mavo en daarna volgde ik een mbo-opleiding.<br><br>
+          Tijdens mijn mbo-periode ontdekte ik mijn passie voor design en creativiteit. Na het behalen van mijn diploma wist ik dat ik verder wilde in een richting waarin ik mijn creativiteit zonder grenzen kon ontwikkelen. Daarom koos ik voor de opleiding CMD, waar ik me helemaal op mijn plek voel. De brede en afwisselende opleiding sluit perfect aan bij mijn interesses.<br><br>
+          Ik hou van uitdagingen en leer graag nieuwe dingen, ook als ze niet direct met ontwerpen te maken hebben. Ik geloof dat je nooit uitgeleerd raakt en altijd kunt verbeteren. Die mindset neem ik mee in mijn werk: bij elk ontwerp streef ik naar groei, vernieuwing en een beter resultaat.</p>
+
+          <h3>Waar ik goed in ben</h3>
+          <div class="pill-row">
+            <span class="pill"><span class="dot"></span>UX/UI thinking</span>
+            <span class="pill"><span class="dot"></span>Figma prototypes</span>
+            <span class="pill"><span class="dot"></span>Film & montage</span>
+            <span class="pill"><span class="dot"></span>Arduino & interactie</span>
+            <span class="pill"><span class="dot"></span>Visual design</span>
+          </div>
+
+          <a class="btn" href="uxui.html">Bekijk mijn UX/UI werk</a>
+        </div>
+
+        <div class="about-photo">
+          <img id="about-img" src="IMG_6746.jpg" alt="Portret van Jason">
+          <div class="about-bar"></div>
+        </div>
+      </div>
+
+      <!-- Onderste blok met streep + oranje glow -->
+      <div class="extra-block">
+        <h3>Extra over mij</h3>
+        <p>Ik draag graag mijn steentje bij aan de community. Zo ben ik actief in de kerk, waar ik mijn creativiteit ook kan inzetten. Ik maak onder andere podcasts, dagelijkse content voor sociale media en doe regelmatig fotografie. Op deze manier kan ik mijn talenten gebruiken om anderen te inspireren en te ondersteunen.<br><br>
+        Voor mijn huidige studie heb ik de opleiding Marketing & Communicatie afgerond. Hierdoor heb ik ervaring met het in de markt zetten van producten en het op een effectieve manier bereiken van consumenten. Die achtergrond helpt mij bij het ontwerpen van creatieve oplossingen die niet alleen mooi zijn, maar ook strategisch en doelgericht werken.</p>
+      </div>
+    </section>
+  </main>
+
+<script>
+/* === Slideshow + progress bar === */
+const aboutSlides=["IMG_6746.jpg","jason-street.jpg","jason-dinner.jpg"];
+const aboutImg=document.getElementById("about-img");
+const bar=document.querySelector(".about-bar");
+let aboutIndex=0;
+
+function showSlide(){
+  aboutIndex=(aboutIndex+1)%aboutSlides.length;
+  aboutImg.style.opacity=0;
+  setTimeout(()=>{
+    aboutImg.src=aboutSlides[aboutIndex];
+    aboutImg.style.opacity=1;
+  },300);
+}
+
+function resetBar(){
+  bar.style.transition="none";
+  bar.style.width="0%";
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=>{
+      bar.style.transition="width 5s linear";
+      bar.style.width="100%";
+    });
+  });
+}
+
+resetBar();
+setInterval(()=>{ showSlide(); resetBar(); },5000);
+</script>
+
+</body>
+</html>

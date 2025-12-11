@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="nl" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Film — Jason CMD Portfolio</title>
+  <meta name="description" content="Filmprojecten van Jason Rayappu — storytelling zonder gesproken tekst.">
+  <meta name="theme-color" content="#fc9403"/>
+
+  <style>
+    :root{
+      --accent:#fc9403; 
+      --bg:#0e0e10; 
+      --card:#15161a; 
+      --muted:#9aa3ad; 
+      --text:#eef2f6;
+      --radius:14px;
+      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
+      --shadow-md:0 8px 24px rgba(2,6,23,.35);
+      --heading:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body)}
+    img{max-width:100%;display:block}
+
+    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
+    .topbar-inner{position:relative;height:100%}
+    .nav{
+      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
+      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
+    }
+    .nav a{
+      color:var(--text);
+      text-decoration:none;
+      font-weight:700;
+      font-size:14px;
+      padding:8px 12px;
+      border-radius:10px;
+      transition:color .2s, background .2s, transform .2s;
+    }
+    .nav a:hover,
+    .nav a.active{
+      color:var(--accent);
+      background:rgba(252,148,3,.12);
+    }
+    .logo-right{position:absolute;right:20px;top:50%;transform:translateY(-50%);pointer-events:auto}
+    .logo-right img{height:56px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35));transition:.25s}
+    .logo-right:hover img{transform:scale(1.04);opacity:.95}
+
+    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
+    .panel{
+      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      border-radius:var(--radius);
+      padding:36px;
+      box-shadow:var(--shadow-lg);
+      width:min(1000px,92vw);
+      position:relative;
+      overflow:hidden;
+    }
+    h1,h2,h3{font-family:var(--heading);margin-top:0}
+    p{color:var(--muted);line-height:1.6}
+    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
+
+    .film-layout{
+      display:grid;
+      grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
+      gap:26px;
+      align-items:start;
+    }
+
+    .yt-wrap{
+      position:relative;
+      width:100%;
+      aspect-ratio:16/9;
+      border-radius:16px;
+      overflow:hidden;
+      box-shadow:0 12px 40px rgba(0,0,0,.6);
+      background:#000;
+    }
+    .yt-wrap iframe{width:100%;height:100%;border:0;display:block}
+
+    .meta-list{list-style:none;padding:0;margin:12px 0 0;font-size:13px;color:var(--muted)}
+    .meta-list li{margin-bottom:4px}
+    .meta-label{font-weight:600;color:#dfe5ee}
+
+    .orb-bg{
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(252,148,3,.3), transparent 55%),
+        radial-gradient(circle at 90% 100%, rgba(252,148,3,.22), transparent 55%);
+      opacity:.35;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    @media (max-width:960px){
+      main{padding:92px 20px 32px}
+      .film-layout{grid-template-columns:1fr}
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="wie-ben-ik.html">Wie ben ik</a>
+        <a href="uxui.html">UX/UI Design</a>
+        <a href="fotografie.html">Fotografie</a>
+        <a href="film.html" class="active">Film</a>
+        <a href="arduino.html">Arduino</a>
+      </nav>
+      <a class="logo-right" href="index.html"><img src="logo.png" alt="Logo Jason"></a>
+    </div>
+  </div>
+
+  <main>
+    <section class="panel">
+      <div class="orb-bg" aria-hidden="true"></div>
+
+      <h1>Film</h1>
+      <p class="tagline">Verhalen vertellen met alleen beeld, geluid en ritme.</p>
+
+      <div class="film-layout">
+        <!-- Video links -->
+        <div>
+          <div class="yt-wrap">
+            <iframe
+              src="https://www.youtube-nocookie.com/embed/L2eEPFbFrVQ"
+              title="Reflectieproject – Beweging en Identiteit (geen gesproken tekst)"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen
+              loading="lazy">
+            </iframe>
+          </div>
+          <ul class="meta-list">
+            
+          </ul>
+        </div>
+
+        <!-- Synopsis rechts -->
+        <div>
+          <h2>Clara en de boodschap in de fles</h2>
+          <p>
+            Wanneer de onzekere Clara een wanhopige boodschap in een fles vindt, moet ze haar
+            eigen angsten en twijfels overwinnen om een ontvoerd persoon te redden. Zonder dialoog
+            moest alles verteld worden met kadrering, kleur, muziek en montage.
+          </p>
+
+          <h3>Focuspunten in deze film</h3>
+          <ul style="padding-left:18px;font-size:14px;color:var(--muted);line-height:1.6">
+            <li>Gebruik van licht en kleur om Clara’s emotionele staat te tonen.</li>
+            <li>Langzame opbouw in het begin, versnelling richting de climax.</li>
+            <li>Herhaling van bepaalde shots als visueel motief (de fles, het water, de blik).</li>
+          </ul>
+
+          <p style="margin-top:14px;">
+            <em>
+                Tijdens dit project was ik verantwoordelijk voor het filmen, editen en het sounddesign. Deze opdracht dwong me om scherp te kijken naar visuele storytelling: wat blijft er over als je geen woorden mag gebruiken? Het liet me ontdekken hoe je met beeld, geluid en ritme een verhaal kunt vertellen dat even krachtig is als gesproken taal.
+            </em>
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
