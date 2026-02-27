@@ -1,337 +1,596 @@
 <!doctype html>
-<html lang="nl" data-theme="dark">
+<html lang="nl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>UX/UI Design — Jason CMD Portfolio</title>
+  <title>UX/UI Design — Jason Rayappu</title>
   <meta name="description" content="UX/UI projecten van Jason Rayappu — van onderzoek tot prototype.">
-  <meta name="theme-color" content="#fc9403"/>
+  <meta name="theme-color" content="#F2C66B"/>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --accent:#fc9403; 
-      --bg:#0e0e10; 
-      --card:#15161a; 
-      --muted:#9aa3ad; 
-      --text:#eef2f6;
-      --radius:14px;
-      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
-      --shadow-md:0 8px 24px rgba(2,6,23,.35);
-      --heading:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      --bg:#F2C66B;
+      --text:#0B0B0C;
+      --white:#FFFFFF;
+      --black:#0B0B0C;
+
+      --shadow:0 20px 60px rgba(0,0,0,.18);
+      --shadow2:0 30px 90px rgba(0,0,0,.22);
+
+      --gap:clamp(16px,2.4vw,44px);
+      --pad:clamp(14px,2.2vw,28px);
+      --radius:28px;
+
+      --sat: env(safe-area-inset-top, 0px);
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body);scroll-behavior:smooth}
-    img{max-width:100%;display:block}
-
-    /* Topbar */
-    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
-    .topbar-inner{position:relative;height:100%}
-    .nav{
-      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
-      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
-    }
-    .nav a{
+    html,body{height:100%;margin:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
       color:var(--text);
-      text-decoration:none;
-      font-weight:700;
-      font-size:14px;
-      padding:8px 12px;
-      border-radius:10px;
-      transition:color .2s, background .2s, transform .2s;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
     }
-    .nav a:hover,
-    .nav a.active{
-      color:var(--accent);
-      background:rgba(252,148,3,.12);
-    }
-    .logo-right{
-      position:absolute;right:20px;top:50%;transform:translateY(-50%);
-      display:flex;align-items:center;justify-content:center;pointer-events:auto;
-    }
-    .logo-right img{
-      height:56px;width:auto;
-      filter:drop-shadow(0 3px 10px rgba(0,0,0,.35));
-      transition:transform .25s ease, opacity .25s ease;
-    }
-    .logo-right:hover img{transform:scale(1.04);opacity:.95}
+    img{max-width:100%;display:block}
+    :focus-visible{outline:3px solid rgba(0,0,0,.45);outline-offset:3px;border-radius:12px}
 
-    /* Layout */
-    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
-    .panel{
-      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
-      border-radius:var(--radius);
-      padding:36px;
-      box-shadow:var(--shadow-lg);
-      width:min(1100px,92vw);
-      position:relative;
-      overflow:hidden;
-    }
-    h1,h2,h3{font-family:var(--heading);margin-top:0}
-    p{color:var(--muted);line-height:1.6}
-    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
 
-    .ux-grid{
-      display:grid;
-      grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
-      gap:28px;
-      align-items:start;
-      margin-bottom:36px;
+    .skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip:focus{left:16px;top:16px;width:auto;height:auto;background:#fff;color:#111;padding:10px 14px;border-radius:12px;z-index:9999}
+
+
+    .topbar{
+      position:fixed;left:0;right:0;top:0;
+      height:calc(64px + var(--sat));
+      padding:var(--sat) var(--pad) 0;
+      display:flex;align-items:center;justify-content:space-between;
+      z-index:50;
+    
+      background:rgba(242,198,107,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.08);
     }
-    .badge-row{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0 18px}
-    .badge{
-      background:rgba(255,255,255,.06);
-      border-radius:999px;
-      padding:6px 10px;
-      font-size:11px;
-      text-transform:uppercase;
+
+    .brand{
+      display:flex;align-items:center;gap:10px;
+      text-decoration:none;color:var(--black);
+      font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:12px;
+      user-select:none;
+    }
+    .brand img{width:34px;height:34px;border-radius:999px}
+
+    .menu{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(0,0,0,.92);
+      color:#fff;
+      font-weight:900;
       letter-spacing:.06em;
-      color:var(--muted);
-      border:1px solid rgba(255,255,255,.1);
+      border:0;cursor:pointer;
     }
+    .burger{width:18px;height:12px;position:relative;display:inline-block}
+    .burger span{position:absolute;left:0;right:0;height:2px;border-radius:2px;background:#fff}
+    .burger span:nth-child(1){top:0}
+    .burger span:nth-child(2){top:5px}
+    .burger span:nth-child(3){top:10px}
 
-    .ui-tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-top:10px}
-    .ui-tile{
-      background:var(--card);
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.06);
+    .drawer{position:fixed;inset:0;display:none;z-index:80}
+    .drawer.open{display:block}
+    .drawer .bg{position:absolute;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(8px)}
+    .drawer .panel{
+      position:absolute;top:calc(14px + var(--sat));right:14px;
+      width:min(420px,92vw);
+      border-radius:22px;background:#fff;
+      box-shadow:var(--shadow2);
       overflow:hidden;
-      box-shadow:var(--shadow-md);
-      cursor:pointer;
-      transition:transform .2s ease, box-shadow .2s ease;
     }
-    .ui-tile:hover{transform:translateY(-4px);box-shadow:0 14px 32px rgba(0,0,0,.6);}
-    .ui-tile img{width:100%;height:220px;object-fit:cover;display:block}
-    .ui-tile .meta{padding:10px 12px}
-    .ui-tile h4{margin:0 0 4px;font-size:14px}
-    .ui-tile p{margin:0;font-size:12px;color:var(--muted)}
+    .drawer .head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.08);
+      font-weight:900;
+    }
+    .drawer .close{border:0;background:transparent;font-size:26px;cursor:pointer;padding:6px 10px;border-radius:12px}
+    .drawer nav{padding:14px}
+    .drawer nav a{
+      display:flex;justify-content:space-between;align-items:center;
+      text-decoration:none;color:#111;
+      padding:14px 14px;border-radius:16px;
+      background:rgba(242,198,107,.30);
+      border:1px solid rgba(0,0,0,.10);
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .drawer nav a.active{
+      background:rgba(0,0,0,.92);
+      color:#fff;
+      border-color:rgba(0,0,0,.15);
+    }
 
-    .prototype-card{
-      border-radius:14px;
-      background:radial-gradient(circle at 0 0, rgba(252,148,3,.22), transparent 55%), rgba(0,0,0,.45);
-      padding:18px 18px 16px;
+    main{
+      padding-top:calc(88px + var(--sat)); /* FIX: topbar overlap */
+      padding-bottom:70px
+    }
+    .wrap{max-width:1400px;margin:0 auto;padding:0 var(--pad)}
+
+    .page-hero{
       display:grid;
-      grid-template-columns:minmax(0,1.2fr) minmax(0,180px);
-      gap:16px;
+      gap:18px;
       align-items:center;
-      margin-top:8px;
-    }
-    .prototype-card img{border-radius:12px;width:100%;height:auto;object-fit:contain;background:#000}
-    .prototype-card small{display:block;color:rgba(255,255,255,.7);margin-bottom:4px;font-size:11px;text-transform:uppercase;letter-spacing:.08em}
-    .prototype-card h3{margin:0 0 6px;font-size:18px}
-    .prototype-card p{margin:0;font-size:13px;color:#e7ecf3}
-
-    .orb-bg{
-      position:absolute;
-      inset:-40%;
-      background:
-        radial-gradient(circle at 10% 0%, rgba(252,148,3,.35), transparent 55%),
-        radial-gradient(circle at 90% 100%, rgba(252,148,3,.25), transparent 55%);
-      opacity:.35;
-      pointer-events:none;
-      z-index:-1;
+      justify-items:center;
+      text-align:center;
+      padding:clamp(18px,3vw,34px) 0 clamp(10px,2vw,18px);
     }
 
-    hr.section-divider{
-      border:none;
-      border-top:1px solid rgba(255,255,255,.08);
-      margin:30px 0;
+    .headline{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      font-size:clamp(46px,10vw,150px);
+      line-height:.9;
+      margin:0;
+      user-select:none;
     }
 
-    @media (max-width:960px){
-      main{padding:92px 20px 32px}
-      .ux-grid{grid-template-columns:1fr}
-      .prototype-card{grid-template-columns:1fr}
+    .sub{
+      margin:0;
+      max-width:80ch;
+      color:rgba(0,0,0,.70);
+      font-weight:600;
+      line-height:1.7;
+      font-size:clamp(14px,1.6vw,18px);
     }
 
-    /* Lightbox voor grote afbeeldingen */
-    .lightbox{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.85);
-      display:none;
+    .title-row{
+      width:100%;
+      display:flex;
       align-items:center;
       justify-content:center;
-      z-index:300;
-      padding:20px;
+      gap:clamp(8px,2vw,16px);
+      user-select:none;
+      margin-top:6px;
+    }
+    .tword{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      font-size:clamp(40px,8vw,120px);
+      line-height:1;
+      white-space:nowrap;
+    }
+    .pill{
+      position:relative;
+      height:clamp(48px,6.5vw,90px);
+      background:#fff;
+      border-radius:9999px;
+      flex:1 1 auto;
+      max-width:680px;
+      min-width:140px;
+      overflow:visible;
+    }
+    .knob{
+      position:absolute;
+      top:50%;
+      transform:translate(-50%,-50%);
+      border-radius:9999px;
+      background:rgba(0,0,0,.92);
+      box-shadow:0 18px 50px rgba(0,0,0,.18);
+      will-change:left,width,height;
+    }
+
+    .panel{
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:clamp(18px,3vw,34px);
+    }
+
+    .section-title{
+      margin:0 0 10px;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.04em;
+      font-size:clamp(26px,3.2vw,40px);
+      line-height:1.1;
+    }
+
+    .badges{display:flex;flex-wrap:wrap;gap:10px;margin:10px 0 18px}
+    .badge{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(0,0,0,.92);
+      color:var(--bg);
+      font-weight:900;
+      letter-spacing:.08em;
+      text-transform:uppercase;
+      font-size:12px;
+      user-select:none;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1.15fr .85fr;
+      gap:clamp(16px,3vw,34px);
+      align-items:start;
+    }
+
+    .prose p{margin:0 0 12px;color:rgba(0,0,0,.70);font-weight:600;line-height:1.7}
+    .prose ul{margin:10px 0 0;padding-left:18px;color:rgba(0,0,0,.70);font-weight:600;line-height:1.7}
+    .prose li{margin-bottom:6px}
+
+    .tiles{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .tile{
+      background:#fff;
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 14px 34px rgba(0,0,0,.12);
+      cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .tile:hover{transform:translateY(-4px);box-shadow:0 24px 60px rgba(0,0,0,.18)}
+    .tile img{width:100%;height:240px;object-fit:cover}
+    .tile .meta{padding:12px 14px}
+    .tile .meta h4{margin:0 0 6px;font-weight:900;letter-spacing:-.01em}
+    .tile .meta p{margin:0;color:rgba(0,0,0,.65);font-weight:600;line-height:1.55;font-size:13px}
+
+    .proto{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: minmax(0,1fr) minmax(260px, 38vw);
+      gap: clamp(16px,3vw,34px);
+      align-items:stretch;
+      background: rgba(0,0,0,.92);
+      color:#fff;
+      border-radius: var(--radius);
+      border: 1px solid rgba(0,0,0,.12);
+      padding: clamp(16px,2.4vw,22px);
+      box-shadow: 0 26px 90px rgba(0,0,0,.18);
+    }
+    .proto small{
+      display:block;
+      opacity:.8;
+      font-weight:900;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:11px;
+      margin-bottom:8px;
+    }
+    .proto h3{margin:0 0 8px;font-size:22px;letter-spacing:-.02em}
+    .proto p{margin:0;color:rgba(255,255,255,.78);font-weight:600;line-height:1.7}
+
+    .proto .preview{
+      border-radius:9999px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 30px 90px rgba(0,0,0,.30);
+      background:#000;
+
+      height:auto;
+      aspect-ratio: 9 / 16;   
+      max-height:520px;
+      justify-self:end;
+
+      display:grid;
+      place-items:center;
+      padding:16px;
+      cursor:pointer;
+    }
+    .proto .preview img{
+      width:100%;
+      height:100%;
+      object-fit:contain;   
+      background:#000;
+    }
+
+    hr.sep{border:0;border-top:1px solid rgba(0,0,0,.12);margin:clamp(18px,3vw,30px) 0}
+
+    .lightbox{
+      position:fixed;inset:0;
+      background:rgba(0,0,0,.82);
+      backdrop-filter:blur(6px);
+      display:none;
+      align-items:center;justify-content:center;
+      z-index:120;
+      padding:18px;
     }
     .lightbox.open{display:flex}
-    .lightbox-inner{
-      max-width:min(1000px,95vw);
+    .lb-inner{
+      width:min(1100px,96vw);
       max-height:90vh;
       position:relative;
     }
-    .lightbox-inner img{
+    .lb-inner img{
       width:100%;
-      height:100%;
+      max-height:90vh;
       object-fit:contain;
-      border-radius:16px;
-      box-shadow:0 18px 60px rgba(0,0,0,.8);
+      border-radius:22px;
       background:#000;
+      box-shadow:0 30px 90px rgba(0,0,0,.5);
     }
-    .lightbox-close{
-      position:absolute;
-      top:-10px;
-      right:-10px;
-      background:#111;
-      border:none;
-      color:#fff;
-      font-size:22px;
-      line-height:1;
-      width:32px;
-      height:32px;
-      border-radius:999px;
-      cursor:pointer;
-      box-shadow:0 6px 18px rgba(0,0,0,.6);
+    .lb-close{
+      position:absolute;top:-10px;right:-10px;
+      width:38px;height:38px;border-radius:999px;
+      border:0;cursor:pointer;
+      background:rgba(0,0,0,.92);
+      color:#fff;font-size:22px;line-height:1;
+      box-shadow:0 14px 34px rgba(0,0,0,.35);
     }
+
+
+    @media (max-width:980px){
+      .grid{grid-template-columns:1fr}
+      .tiles{grid-template-columns:1fr}
+      .proto{grid-template-columns:1fr}
+      .proto .preview{
+        justify-self:center;
+        width:min(520px,92vw);
+      }
+    }
+   @media (max-width:520px){
+
+  .proto{
+    padding:14px;
+    gap:14px;
+  }
+
+  .proto .preview{
+    justify-self:center;
+    width:min(280px, 78vw);   
+    height:min(42vh, 320px);  
+    aspect-ratio:auto;        
+    max-height:none;        
+    padding:8px;
+  }
+
+  .proto h3{ font-size:18px; }
+}
   </style>
 </head>
+
 <body>
+  <a class="skip" href="#content">Direct naar inhoud</a>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
-    <div class="lightbox-inner">
-      <button class="lightbox-close" id="lb-close" aria-label="Sluiten">×</button>
-      <img id="lb-img" src="" alt="">
-    </div>
+
+  <div class="topbar">
+    <a class="brand" href="index.html" aria-label="Home">
+      <img src="logo.png" alt="Logo">
+      Jason Rayappu
+    </a>
+
+    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="drawer">
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+      Menu
+    </button>
   </div>
 
-  <div class="topbar" role="navigation" aria-label="Hoofdnavigatie">
-    <div class="topbar-inner">
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="wie-ben-ik.html">Wie ben ik</a>
-        <a href="uxui.html" class="active">UX/UI Design</a>
-        <a href="fotografie.html">Fotografie</a>
-        <a href="film.html">Film</a>
-        <a href="arduino.html">Arduino</a>
+
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="bg" id="drawerBg"></div>
+    <div class="panel">
+      <div class="head">
+        Menu
+        <button class="close" id="drawerClose" aria-label="Sluiten">×</button>
+      </div>
+      <nav>
+        <a href="index.html">Home <span>↗</span></a>
+        <a href="wie-ben-ik.html">Wie ben ik <span>↗</span></a>
+        <a class="active" href="uxui.html">UX/UI Design <span>↗</span></a>
+        <a href="fotografie.html">Fotografie <span>↗</span></a>
+        <a href="film.html">Film <span>↗</span></a>
+        <a href="arduino.html">Arduino <span>↗</span></a>
       </nav>
-      <a class="logo-right" href="index.html" aria-label="Terug naar Home">
-        <img src="logo.png" alt="Logo Jason">
-      </a>
     </div>
   </div>
 
-  <main>
-    <section class="panel">
-      <div class="orb-bg" aria-hidden="true"></div>
 
-      <h1>UX/UI Design</h1>
-      <p class="tagline">Van eerste idee tot klikbaar prototype in Figma.</p>
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Afbeelding vergroten">
+    <div class="lb-inner">
+      <button class="lb-close" id="lbClose" aria-label="Sluiten">×</button>
+      <img id="lbImg" src="" alt="">
+    </div>
+  </div>
 
-      <!-- ========= PROTOTYPE 1: Hardloop-app ========= -->
-      <div class="ux-grid">
-        <!-- Tekst links -->
-        <div>
-          <div class="badge-row">
-            <span class="badge">Figma</span>
-            <span class="badge">User flows</span>
-            <span class="badge">Design systems</span>
-            <span class="badge">Prototyping</span>
+  <main id="content">
+    <div class="wrap">
+      <header class="page-hero" aria-label="Pagina intro">
+        <div class="title-row" aria-hidden="true">
+          <div class="tword">UX</div>
+          <div class="pill" id="pillTitle">
+            <div class="knob" id="knobTitle"></div>
+          </div>
+          <div class="tword">UI</div>
+        </div>
+
+        <h1 class="headline">Design</h1>
+        <p class="sub">Van eerste idee tot klikbaar prototype in Figma — met focus op flows, feedback en duidelijkheid.</p>
+      </header>
+
+      <section class="panel">
+        <div class="badges" aria-label="Skills">
+          <span class="badge">Figma</span>
+          <span class="badge">User flows</span>
+          <span class="badge">Design systems</span>
+          <span class="badge">Prototyping</span>
+        </div>
+
+        <h2 class="section-title">Hardloop-app — bewegen leuk en haalbaar maken</h2>
+
+        <div class="grid">
+          <div class="prose">
+            <p>
+              Voor een schoolproject ontwierp ik een hardloop-app die mensen stimuleert om vaker te bewegen.
+              De app combineert duidelijke progressie, laagdrempelige uitdagingen en een sociale component met clubs en rankings.
+            </p>
+            <p>
+              Ik begon met de centrale vraag: <em>“Waarom haken mensen af?”</em> Voor dit project heb ik onderzoek gedaan door middel van interviews.
+              Uit deze gesprekken bleek dat veel mensen een stok achter de deur misten en behoefte hadden aan een uitdagend gevoel om gemotiveerd te blijven.
+              Op basis van deze inzichten werkte ik user stories en user flows uit. Vervolgens maakte ik wireframes en vertaalde deze naar een high-fidelity prototype in Figma.
+            </p>
+
+            <h3 style="margin:18px 0 8px;font-weight:900;letter-spacing:-.02em;">Focus in dit ontwerp</h3>
+            <ul>
+              <li>Heldere navigatie en states (empty, loading, error).</li>
+              <li>Motivatie via microcopy, progressie en feedback.</li>
+              <li>Bekende patronen met een eigen visuele identiteit.</li>
+            </ul>
           </div>
 
-          <h2>Hardloop-app — bewegen leuk en haalbaar maken</h2>
-          <p>
-            Voor een schoolproject ontwierp ik een hardloop-app die mensen stimuleert om vaker te bewegen.
-            De app combineert duidelijke progressie, laagdrempelige uitdagingen en een sociale component met clubs en rankings.
-          </p>
-          <p>
-            Ik begon met de centrale vraag: <em>“Waarom haken mensen af?”</em> Voor dit project heb ik onderzoek gedaan door middel van interviews. Uit deze gesprekken bleek dat veel mensen een stok achter de deur misten en behoefte hadden aan een uitdagend gevoel om gemotiveerd te blijven.
+          <div>
+            <div class="tiles" aria-label="Screens">
+              <article class="tile" data-full="homescherm.png" data-alt="Homescreen van de hardloop-app">
+                <img src="homescherm.png" alt="Homescreen van de hardloop-app">
+                <div class="meta">
+                  <h4>Home</h4>
+                  <p>Overzicht van kilometers, doelen en actieve challenges.</p>
+                </div>
+              </article>
 
-Op basis van deze inzichten werkte ik user stories en user flows uit. Vervolgens maakte ik wireframes en vertaalde deze uiteindelijk naar een high-fidelity prototype in Figma.
-          </p>
-
-          <h3>Focus in dit ontwerp</h3>
-          <ul style="padding-left:18px;color:var(--muted);font-size:14px;line-height:1.6">
-            <li>Heldere navigatie en states (empty, loading, error).</li>
-            <li>Motivatie via microcopy, progressie en feedback.</li>
-            <li>Bekende patronen met een eigen visuele identiteit.</li>
-          </ul>
-        </div>
-
-        <!-- UI-tiles rechts -->
-        <div>
-          <div class="ui-tiles">
-            <article class="ui-tile">
-              <img src="homescherm.png" alt="Homescreen van de hardloop-app" data-full="homescherm.png">
-              <div class="meta">
-                <h4>Home</h4>
-                <p>Direct overzicht van kilometers, doelen en actieve challenges.</p>
-              </div>
-            </article>
-            <article class="ui-tile">
-              <img src="clubschern.png" alt="Club/community scherm van de hardloop-app" data-full="clubschern.png">
-              <div class="meta">
-                <h4>Club</h4>
-                <p>Teams, rankings en gezamenlijke runs voor extra motivatie.</p>
-              </div>
-            </article>
+              <article class="tile" data-full="clubschern.png" data-alt="Club/community scherm van de hardloop-app">
+                <img src="clubschern.png" alt="Club/community scherm van de hardloop-app">
+                <div class="meta">
+                  <h4>Club</h4>
+                  <p>Teams, rankings en gezamenlijke runs voor extra motivatie.</p>
+                </div>
+              </article>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="prototype-card">
-        <div>
-          <small>Prototype</small>
-          <h3>Klikbare flow in Figma</h3>
-          <p>
-            De complete start–tot–finish run-flow is uitgewerkt in een interactief prototype:
-            van het kiezen van een challenge tot het afronden van een sessie en het delen van resultaat.
-          </p>
+        <div class="proto">
+          <div>
+            <small>Prototype</small>
+            <h3>Klikbare flow in Figma</h3>
+            <p>
+              De complete start–tot–finish run-flow is uitgewerkt in een interactief prototype:
+              van het kiezen van een challenge tot het afronden van een sessie en het delen van resultaat.
+            </p>
+          </div>
+          <div class="preview" data-full="Flow%201@512p-25fps.gif" data-alt="Gif van de hardloop-app prototype flow">
+            <img src="Flow%201@512p-25fps.gif" alt="Gif van de hardloop-app prototype flow">
+          </div>
         </div>
-        <div>
-          <img src="Flow%201@512p-25fps.gif" alt="Gif van de hardloop-app prototype flow" data-full="Flow%201@512p-25fps.gif">
-        </div>
-      </div>
 
-      <!-- Scheiding voor tweede app -->
-      <hr class="section-divider">
+        <hr class="sep">
 
-      <!-- ========= PROTOTYPE 2: Tweede app (plaats je eigen Figma werk) ========= -->
-      <div class="ux-grid">
-   
-
-       
-
-        
-    </section>
+        <p style="margin:0;color:rgba(0,0,0,.70);font-weight:700;">
+          Meer werk? Bekijk ook <a href="fotografie.html" style="color:#111;font-weight:900;">Fotografie</a>,
+          <a href="film.html" style="color:#111;font-weight:900;">Film</a> en
+          <a href="arduino.html" style="color:#111;font-weight:900;">Arduino</a>.
+        </p>
+      </section>
+    </div>
   </main>
 
   <script>
-    // Lightbox logic voor het vergroten van UI-screens
-    const lightbox = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lb-img');
-    const lbClose = document.getElementById('lb-close');
 
-    function openLightbox(src, alt){
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerBg = document.getElementById('drawerBg');
+    const drawerClose = document.getElementById('drawerClose');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      menuBtn.setAttribute('aria-expanded','true');
+      document.body.style.overflow='hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    }
+    menuBtn.addEventListener('click', ()=> drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+    drawerBg.addEventListener('click', closeDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+
+
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbClose = document.getElementById('lbClose');
+
+    function openLB(src, alt){
       lbImg.src = src;
       lbImg.alt = alt || '';
       lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
     }
-    function closeLightbox(){
+    function closeLB(){
       lightbox.classList.remove('open');
       lbImg.src = '';
       lbImg.alt = '';
+      document.body.style.overflow = '';
+    }
+    lbClose.addEventListener('click', closeLB);
+    lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLB(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeDrawer(); closeLB(); } });
+
+
+    document.querySelectorAll('[data-full]').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        const src = el.getAttribute('data-full');
+        const alt = el.getAttribute('data-alt') || el.querySelector('img')?.alt || '';
+        openLB(src, alt);
+      });
+      el.style.cursor = 'zoom-in';
+    });
+
+
+    const pillTitle = document.getElementById('pillTitle');
+    const knobTitle = document.getElementById('knobTitle');
+
+    let targetX = 0.5;
+    let cur = 0.5;
+
+    function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+    function setKnob(pill, knob, t){
+      const r = pill.getBoundingClientRect();
+      const h = r.height;
+      const scale = (window.innerWidth < 420) ? 0.98 : 1.06;
+      const knobSize = h * scale;
+      const pad = h * 0.06;
+
+      knob.style.width = knobSize + "px";
+      knob.style.height = knobSize + "px";
+
+      const travel = r.width - knobSize - (pad*2);
+      if (travel <= 0){
+        knob.style.left = (r.width / 2) + "px";
+        return;
+      }
+      knob.style.left = (pad + t * travel + knobSize/2) + "px";
     }
 
-    lbClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', e => {
-      if(e.target === lightbox) closeLightbox();
-    });
-    document.addEventListener('keydown', e => {
-      if(e.key === 'Escape') closeLightbox();
-    });
+    window.addEventListener('mousemove', (e)=>{
+      targetX = clamp(e.clientX / window.innerWidth, 0, 1);
+    }, {passive:true});
 
-    // Alle UI-tiles klikbaar maken
-    document.querySelectorAll('.ui-tile img, .prototype-card img').forEach(img => {
-      img.style.cursor = 'zoom-in';
-      img.addEventListener('click', () => {
-        const src = img.getAttribute('data-full') || img.currentSrc || img.src;
-        openLightbox(src, img.alt);
-      });
-    });
+    let autoT = 0;
+    function tick(){
+      autoT += 0.012;
+      const auto = (Math.sin(autoT) * 0.5 + 0.5);
+      const x = (window.matchMedia('(hover:hover)').matches) ? targetX : auto;
+
+      cur += (x - cur) * 0.12;
+      setKnob(pillTitle, knobTitle, cur);
+
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    window.addEventListener('resize', ()=> setKnob(pillTitle, knobTitle, cur), {passive:true});
   </script>
 </body>
 </html>
