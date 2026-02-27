@@ -1,172 +1,496 @@
 <!doctype html>
-<html lang="nl" data-theme="dark">
+<html lang="nl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Film — Jason CMD Portfolio</title>
+  <title>Film — Jason Rayappu</title>
   <meta name="description" content="Filmprojecten van Jason Rayappu — storytelling zonder gesproken tekst.">
-  <meta name="theme-color" content="#fc9403"/>
+  <meta name="theme-color" content="#F2C66B"/>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --accent:#fc9403; 
-      --bg:#0e0e10; 
-      --card:#15161a; 
-      --muted:#9aa3ad; 
-      --text:#eef2f6;
-      --radius:14px;
-      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
-      --shadow-md:0 8px 24px rgba(2,6,23,.35);
-      --heading:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      --bg:#F2C66B;
+      --text:#0B0B0C;
+      --white:#FFFFFF;
+      --black:#0B0B0C;
+
+      --shadow:0 20px 60px rgba(0,0,0,.18);
+      --shadow2:0 30px 90px rgba(0,0,0,.22);
+
+      --pad:clamp(14px,2.2vw,28px);
+      --radius:28px;
+
+      --sat: env(safe-area-inset-top, 0px);
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body)}
-    img{max-width:100%;display:block}
-
-    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
-    .topbar-inner{position:relative;height:100%}
-    .nav{
-      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
-      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
-    }
-    .nav a{
+    html,body{height:100%;margin:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
       color:var(--text);
-      text-decoration:none;
-      font-weight:700;
-      font-size:14px;
-      padding:8px 12px;
-      border-radius:10px;
-      transition:color .2s, background .2s, transform .2s;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
     }
-    .nav a:hover,
-    .nav a.active{
-      color:var(--accent);
-      background:rgba(252,148,3,.12);
-    }
-    .logo-right{position:absolute;right:20px;top:50%;transform:translateY(-50%);pointer-events:auto}
-    .logo-right img{height:56px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35));transition:.25s}
-    .logo-right:hover img{transform:scale(1.04);opacity:.95}
+    img{max-width:100%;display:block}
+    :focus-visible{outline:3px solid rgba(0,0,0,.45);outline-offset:3px;border-radius:12px}
 
-    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
-    .panel{
-      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
-      border-radius:var(--radius);
-      padding:36px;
-      box-shadow:var(--shadow-lg);
-      width:min(1000px,92vw);
-      position:relative;
+    .skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip:focus{left:16px;top:16px;width:auto;height:auto;background:#fff;color:#111;padding:10px 14px;border-radius:12px;z-index:9999}
+
+  
+    .topbar{
+      position:fixed;left:0;right:0;top:0;
+      height:calc(64px + var(--sat));
+      padding:var(--sat) var(--pad) 0;
+      display:flex;align-items:center;justify-content:space-between;
+      z-index:50;
+      background:rgba(242,198,107,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.08);
+    }
+    .brand{
+      display:flex;align-items:center;gap:10px;
+      text-decoration:none;color:var(--black);
+      font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:12px;
+      user-select:none;
+    }
+    .brand img{width:34px;height:34px;border-radius:999px}
+
+    .menu{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(0,0,0,.92);
+      color:#fff;
+      font-weight:900;
+      letter-spacing:.06em;
+      border:0;cursor:pointer;
+    }
+    .burger{width:18px;height:12px;position:relative;display:inline-block}
+    .burger span{position:absolute;left:0;right:0;height:2px;border-radius:2px;background:#fff}
+    .burger span:nth-child(1){top:0}
+    .burger span:nth-child(2){top:5px}
+    .burger span:nth-child(3){top:10px}
+
+    .drawer{position:fixed;inset:0;display:none;z-index:80}
+    .drawer.open{display:block}
+    .drawer .bg{position:absolute;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(8px)}
+    .drawer .panel{
+      position:absolute;top:calc(14px + var(--sat));right:14px;
+      width:min(420px,92vw);
+      border-radius:22px;background:#fff;
+      box-shadow:var(--shadow2);
       overflow:hidden;
     }
-    h1,h2,h3{font-family:var(--heading);margin-top:0}
-    p{color:var(--muted);line-height:1.6}
-    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
+    .drawer .head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.08);
+      font-weight:900;
+    }
+    .drawer .close{border:0;background:transparent;font-size:26px;cursor:pointer;padding:6px 10px;border-radius:12px}
+    .drawer nav{padding:14px}
+    .drawer nav a{
+      display:flex;justify-content:space-between;align-items:center;
+      text-decoration:none;color:#111;
+      padding:14px 14px;border-radius:16px;
+      background:rgba(242,198,107,.30);
+      border:1px solid rgba(0,0,0,.10);
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .drawer nav a.active{
+      background:rgba(0,0,0,.92);
+      color:#fff;
+      border-color:rgba(0,0,0,.15);
+    }
+
+  
+    main{
+      padding-top:calc(88px + var(--sat));
+      padding-bottom:70px;
+    }
+    .wrap{max-width:1400px;margin:0 auto;padding:0 var(--pad)}
+
+    .page-hero{
+      display:grid;
+      gap:18px;
+      align-items:center;
+      justify-items:center;
+      text-align:center;
+      padding:clamp(18px,3vw,34px) 0 clamp(10px,2vw,18px);
+    }
+
+
+    .title-row{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:clamp(8px,2vw,16px);
+      user-select:none;
+      flex-wrap:nowrap;
+    }
+    .tword{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      font-size:clamp(44px, 12vw, 150px);
+      line-height:1;
+      white-space:nowrap;
+    }
+    .pill{
+      position:relative;
+      height:clamp(48px,6.5vw,90px);
+      background:#fff;
+      border-radius:9999px;
+      flex:1 1 auto;
+      max-width:760px;
+      min-width:140px;
+      overflow:visible;
+    }
+    .knob{
+      position:absolute;
+      top:50%;
+      transform:translate(-50%,-50%);
+      border-radius:9999px;
+      background:rgba(0,0,0,.92);
+      box-shadow:0 18px 50px rgba(0,0,0,.18);
+      will-change:left,width,height;
+    }
+
+    .headline{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      font-size:clamp(42px,9vw,130px);
+      line-height:.92;
+      margin:0;
+      user-select:none;
+    }
+
+    .sub{
+      margin:0;
+      max-width:88ch;
+      color:rgba(0,0,0,.70);
+      font-weight:600;
+      line-height:1.7;
+      font-size:clamp(14px,1.6vw,18px);
+    }
+
+
+    .panel{
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:clamp(18px,3vw,34px);
+      overflow:hidden;
+    }
+
 
     .film-layout{
       display:grid;
       grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);
-      gap:26px;
+      gap:clamp(16px,3vw,34px);
       align-items:start;
+      margin-top:16px;
+    }
+
+    .video-card{
+      background:rgba(0,0,0,.92);
+      border-radius:var(--radius);
+      border:1px solid rgba(0,0,0,.12);
+      box-shadow:0 26px 90px rgba(0,0,0,.18);
+      overflow:hidden;
     }
 
     .yt-wrap{
       position:relative;
       width:100%;
       aspect-ratio:16/9;
-      border-radius:16px;
       overflow:hidden;
-      box-shadow:0 12px 40px rgba(0,0,0,.6);
       background:#000;
     }
     .yt-wrap iframe{width:100%;height:100%;border:0;display:block}
 
-    .meta-list{list-style:none;padding:0;margin:12px 0 0;font-size:13px;color:var(--muted)}
-    .meta-list li{margin-bottom:4px}
-    .meta-label{font-weight:600;color:#dfe5ee}
-
-    .orb-bg{
-      position:absolute;
-      inset:-40%;
-      background:
-        radial-gradient(circle at 0 0, rgba(252,148,3,.3), transparent 55%),
-        radial-gradient(circle at 90% 100%, rgba(252,148,3,.22), transparent 55%);
-      opacity:.35;
-      pointer-events:none;
-      z-index:-1;
+    .video-meta{
+      padding:14px 16px 16px;
+      color:rgba(255,255,255,.78);
+      font-weight:700;
+      line-height:1.65;
+      font-size:14px;
+    }
+    .meta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      margin-top:10px;
+    }
+    .meta-chip{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      color:#fff;
+      font-weight:900;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+      font-size:11px;
+      user-select:none;
     }
 
-    @media (max-width:960px){
-      main{padding:92px 20px 32px}
+    h2,h3{margin:0 0 10px;font-weight:900;letter-spacing:-.02em}
+    p{margin:0 0 12px;color:rgba(0,0,0,.70);font-weight:600;line-height:1.7}
+
+    .bullets{
+      margin:10px 0 0;
+      padding-left:18px;
+      color:rgba(0,0,0,.70);
+      font-weight:600;
+      line-height:1.7;
+      font-size:14px;
+    }
+    .bullets li{margin-bottom:6px}
+
+    .note{
+      margin-top:14px;
+      background:rgba(0,0,0,.92);
+      color:rgba(255,255,255,.84);
+      padding:14px 16px;
+      border-radius:18px;
+      border:1px solid rgba(0,0,0,.12);
+      box-shadow:0 18px 60px rgba(0,0,0,.18);
+      font-weight:650;
+      line-height:1.75;
+      font-size:14px;
+    }
+
+ 
+    @media (max-width:980px){
       .film-layout{grid-template-columns:1fr}
+    }
+
+    @media (max-width:520px){
+      .page-hero{gap:10px;}
+      .title-row{
+        flex-wrap:wrap;
+        justify-content:center;
+        gap:10px;
+      }
+      .tword{font-size:clamp(28px, 10vw, 40px);letter-spacing:-.05em;}
+      .pill{
+        height:clamp(34px, 9vw, 46px);
+        flex:0 0 clamp(120px, 34vw, 220px);
+        min-width:110px;
+        max-width:240px;
+      }
+      .tword-m{
+        flex-basis:100%;
+        text-align:center;
+        margin-top:-2px;
+      }
+    
+      #singleTitle{display:none;}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto!important}
     }
   </style>
 </head>
+
 <body>
+  <a class="skip" href="#content">Direct naar inhoud</a>
+
+  
   <div class="topbar">
-    <div class="topbar-inner">
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="wie-ben-ik.html">Wie ben ik</a>
-        <a href="uxui.html">UX/UI Design</a>
-        <a href="fotografie.html">Fotografie</a>
-        <a href="film.html" class="active">Film</a>
-        <a href="arduino.html">Arduino</a>
+    <a class="brand" href="index.html" aria-label="Home">
+      <img src="logo.png" alt="Logo">
+      Jason Rayappu
+    </a>
+
+    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="drawer">
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+      Menu
+    </button>
+  </div>
+
+
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="bg" id="drawerBg"></div>
+    <div class="panel">
+      <div class="head">
+        Menu
+        <button class="close" id="drawerClose" aria-label="Sluiten">×</button>
+      </div>
+      <nav>
+        <a href="index.html">Home <span>↗</span></a>
+        <a href="wie-ben-ik.html">Wie ben ik <span>↗</span></a>
+        <a href="uxui.html">UX/UI Design <span>↗</span></a>
+        <a href="fotografie.html">Fotografie <span>↗</span></a>
+        <a class="active" href="film.html">Film <span>↗</span></a>
+        <a href="arduino.html">Arduino <span>↗</span></a>
       </nav>
-      <a class="logo-right" href="index.html"><img src="logo.png" alt="Logo Jason"></a>
     </div>
   </div>
 
-  <main>
-    <section class="panel">
-      <div class="orb-bg" aria-hidden="true"></div>
+  <main id="content">
+    <div class="wrap">
 
-      <h1>Film</h1>
-      <p class="tagline">Verhalen vertellen met alleen beeld, geluid en ritme.</p>
-
-      <div class="film-layout">
-        <!-- Video links -->
-        <div>
-          <div class="yt-wrap">
-            <iframe
-              src="https://www.youtube-nocookie.com/embed/L2eEPFbFrVQ"
-              title="Reflectieproject – Beweging en Identiteit (geen gesproken tekst)"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              referrerpolicy="strict-origin-when-cross-origin"
-              allowfullscreen
-              loading="lazy">
-            </iframe>
+      <header class="page-hero" aria-label="Pagina intro">
+  
+        <div class="title-row" aria-hidden="true">
+          <div class="tword">FIL</div>
+          <div class="pill" id="pillTitle">
+            <div class="knob" id="knobTitle"></div>
           </div>
-          <ul class="meta-list">
-            
-          </ul>
+          <div class="tword tword-m">M</div>
         </div>
 
-        <!-- Synopsis rechts -->
-        <div>
-          <h2>Clara en de boodschap in de fles</h2>
-          <p>
-            Wanneer de onzekere Clara een wanhopige boodschap in een fles vindt, moet ze haar
-            eigen angsten en twijfels overwinnen om een ontvoerd persoon te redden. Zonder dialoog
-            moest alles verteld worden met kadrering, kleur, muziek en montage.
-          </p>
+  
+        <h1 class="headline" id="singleTitle"></h1>
+        <p class="sub">Verhalen vertellen met alleen beeld, geluid en ritme.</p>
+      </header>
 
-          <h3>Focuspunten in deze film</h3>
-          <ul style="padding-left:18px;font-size:14px;color:var(--muted);line-height:1.6">
-            <li>Gebruik van licht en kleur om Clara’s emotionele staat te tonen.</li>
-            <li>Langzame opbouw in het begin, versnelling richting de climax.</li>
-            <li>Herhaling van bepaalde shots als visueel motief (de fles, het water, de blik).</li>
-          </ul>
+      <section class="panel">
+        <div class="film-layout">
 
-          <p style="margin-top:14px;">
-            <em>
-                Tijdens dit project was ik verantwoordelijk voor het filmen, editen en het sounddesign. Deze opdracht dwong me om scherp te kijken naar visuele storytelling: wat blijft er over als je geen woorden mag gebruiken? Het liet me ontdekken hoe je met beeld, geluid en ritme een verhaal kunt vertellen dat even krachtig is als gesproken taal.
-            </em>
-          </p>
+
+          <div class="video-card">
+            <div class="yt-wrap">
+              <iframe
+                src="https://www.youtube-nocookie.com/embed/L2eEPFbFrVQ"
+                title="Reflectieproject – Beweging en Identiteit (geen gesproken tekst)"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                referrerpolicy="strict-origin-when-cross-origin"
+                allowfullscreen
+                loading="lazy"></iframe>
+            </div>
+
+            <div class="video-meta">
+              <div style="font-weight:900;letter-spacing:-.01em;color:#fff;">Reflectieproject — Beweging & Identiteit</div>
+              <div style="opacity:.85;">Storytelling zonder gesproken tekst.</div>
+
+              <div class="meta-row" aria-label="Meta">
+                <span class="meta-chip">Filmen</span>
+                <span class="meta-chip">Edit</span>
+                <span class="meta-chip">Sounddesign</span>
+                <span class="meta-chip">Montage</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div>
+            <h2>Clara en de boodschap in de fles</h2>
+            <p>
+              Wanneer de onzekere Clara een wanhopige boodschap in een fles vindt, moet ze haar
+              eigen angsten en twijfels overwinnen om een ontvoerd persoon te redden.
+              Zonder dialoog moest alles verteld worden met kadrering, kleur, muziek en montage.
+            </p>
+
+            <h3>Focuspunten in deze film</h3>
+            <ul class="bullets">
+              <li>Gebruik van licht en kleur om Clara’s emotionele staat te tonen.</li>
+              <li>Langzame opbouw in het begin, versnelling richting de climax.</li>
+              <li>Herhaling van bepaalde shots als visueel motief (de fles, het water, de blik).</li>
+            </ul>
+
+            <div class="note">
+              <em>
+                Tijdens dit project was ik verantwoordelijk voor het filmen, editen en het sounddesign.
+                Deze opdracht dwong me om scherp te kijken naar visuele storytelling: wat blijft er over
+                als je geen woorden mag gebruiken? Het liet me ontdekken hoe je met beeld, geluid en ritme
+                een verhaal kunt vertellen dat even krachtig is als gesproken taal.
+              </em>
+            </div>
+          </div>
+
         </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
+
+  <script>
+
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerBg = document.getElementById('drawerBg');
+    const drawerClose = document.getElementById('drawerClose');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      menuBtn.setAttribute('aria-expanded','true');
+      document.body.style.overflow='hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    }
+    menuBtn.addEventListener('click', ()=> drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+    drawerBg.addEventListener('click', closeDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
+
+    const pillTitle = document.getElementById('pillTitle');
+    const knobTitle = document.getElementById('knobTitle');
+
+    let targetX = 0.5;
+    let cur = 0.5;
+
+    function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+    function setKnob(pill, knob, t){
+      if(!pill || !knob) return;
+      const r = pill.getBoundingClientRect();
+      const h = r.height;
+      const scale = (window.innerWidth < 420) ? 0.98 : 1.06;
+      const knobSize = h * scale;
+      const pad = h * 0.06;
+
+      knob.style.width = knobSize + "px";
+      knob.style.height = knobSize + "px";
+
+      const travel = r.width - knobSize - (pad*2);
+      if (travel <= 0){
+        knob.style.left = (r.width / 2) + "px";
+        return;
+      }
+      knob.style.left = (pad + t * travel + knobSize/2) + "px";
+    }
+
+    window.addEventListener('mousemove', (e)=>{
+      targetX = clamp(e.clientX / window.innerWidth, 0, 1);
+    }, {passive:true});
+
+    let autoT = 0;
+    function tick(){
+      autoT += 0.012;
+      const auto = (Math.sin(autoT) * 0.5 + 0.5);
+      const x = (window.matchMedia('(hover:hover)').matches) ? targetX : auto;
+
+      cur += (x - cur) * 0.12;
+      setKnob(pillTitle, knobTitle, cur);
+
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    window.addEventListener('resize', ()=> setKnob(pillTitle, knobTitle, cur), {passive:true});
+  </script>
 </body>
 </html>
