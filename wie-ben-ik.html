@@ -1,226 +1,624 @@
 <!doctype html>
-<html lang="nl" data-theme="dark">
+<html lang="nl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Wie ben ik — Jason CMD Portfolio</title>
-  <meta name="theme-color" content="#fc9403"/>
+  <title>Wie ben ik — Jason Rayappu</title>
+  <meta name="description" content="Wie ben ik — Jason Rayappu (CMD).">
+  <meta name="theme-color" content="#F2C66B"/>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      --accent:#fc9403; 
-      --bg:#0e0e10; 
-      --card:#15161a; 
-      --muted:#9aa3ad; 
-      --text:#eef2f6;
-      --radius:14px;
-      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
-      --shadow-md:0 8px 24px rgba(2,6,23,.35);
-      --heading:'Poppins',system-ui,sans-serif;
-      --body:'Inter',system-ui,sans-serif;
+      --bg:#F2C66B;
+      --text:#0B0B0C;
+      --white:#FFFFFF;
+      --black:#0B0B0C;
+
+      --shadow:0 20px 60px rgba(0,0,0,.18);
+      --shadow2:0 30px 90px rgba(0,0,0,.22);
+
+      --pad:clamp(14px,2.2vw,28px);
+      --radius:28px;
+      --sat: env(safe-area-inset-top, 0px);
+
+
+      --isW:min(900px, 92vw);
+      --isH:220px;
+      --isR:9999px;
+      --bgO:0;      
+      --bgBlur:14px;
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body);scroll-behavior:smooth}
-    img{max-width:100%;display:block;border-radius:10px}
+    html,body{height:100%;margin:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
+      color:var(--text);
+      overflow-x:hidden;
+      scroll-behavior:smooth;
+    }
+    img{max-width:100%;display:block}
+    :focus-visible{outline:3px solid rgba(0,0,0,.45);outline-offset:3px;border-radius:12px}
 
-    /* Topbar */
-    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
-    .topbar-inner{position:relative;height:100%}
-    .nav{
-      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
-      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
-    }
-    .nav a{
-      color:var(--text);text-decoration:none;font-weight:700;font-size:14px;
-      padding:8px 12px;border-radius:10px;transition:color .2s, background .2s;
-    }
-    .nav a:hover,.nav a.active{color:var(--accent);background:rgba(252,148,3,.12)}
+    .skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip:focus{left:16px;top:16px;width:auto;height:auto;background:#fff;color:#111;padding:10px 14px;border-radius:12px;z-index:9999}
 
-    .logo-right{
-      position:absolute;right:20px;top:50%;transform:translateY(-50%);
-      pointer-events:auto;
+ 
+    .topbar{
+      position:fixed;left:0;right:0;top:0;
+      height:calc(64px + var(--sat));
+      padding:var(--sat) var(--pad) 0;
+      display:flex;align-items:center;justify-content:space-between;
+      z-index:50;
+      background:rgba(242,198,107,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.08);
     }
-    .logo-right img{
-      height:56px;
-      filter:drop-shadow(0 3px 10px rgba(0,0,0,.35));
+    .brand{
+      display:flex;align-items:center;gap:10px;
+      text-decoration:none;color:var(--black);
+      font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:12px;
+      user-select:none;
+    }
+    .brand img{width:34px;height:34px;border-radius:999px}
+    .menu{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(0,0,0,.92);
+      color:#fff;
+      font-weight:900;
+      letter-spacing:.06em;
+      border:0;cursor:pointer;
+    }
+    .burger{width:18px;height:12px;position:relative;display:inline-block}
+    .burger span{position:absolute;left:0;right:0;height:2px;border-radius:2px;background:#fff}
+    .burger span:nth-child(1){top:0}
+    .burger span:nth-child(2){top:5px}
+    .burger span:nth-child(3){top:10px}
+
+    .drawer{position:fixed;inset:0;display:none;z-index:80}
+    .drawer.open{display:block}
+    .drawer .bg{position:absolute;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(8px)}
+    .drawer .panel{
+      position:absolute;top:calc(14px + var(--sat));right:14px;
+      width:min(420px,92vw);
+      border-radius:22px;background:#fff;
+      box-shadow:var(--shadow2);
+      overflow:hidden;
+    }
+    .drawer .head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.08);
+      font-weight:900;
+    }
+    .drawer .close{border:0;background:transparent;font-size:26px;cursor:pointer;padding:6px 10px;border-radius:12px}
+    .drawer nav{padding:14px}
+    .drawer nav a{
+      display:flex;justify-content:space-between;align-items:center;
+      text-decoration:none;color:#111;
+      padding:14px 14px;border-radius:16px;
+      background:rgba(242,198,107,.30);
+      border:1px solid rgba(0,0,0,.10);
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .drawer nav a.active{
+      background:rgba(0,0,0,.92);
+      color:#fff;
+      border-color:rgba(0,0,0,.15);
     }
 
-    /* Layout */
-    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
-    .panel{
-      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
-      border-radius:var(--radius);padding:36px;box-shadow:var(--shadow-lg);
-      width:min(900px,92vw);position:relative;overflow:hidden;
+   
+    main{
+      padding-top:calc(64px + var(--sat));
+      padding-bottom:70px;
     }
-    h1,h2,h3{font-family:var(--heading);margin-top:0}
-    p{color:var(--muted);line-height:1.6}
-    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
-    .two-col{display:grid;grid-template-columns:1.2fr 1fr;gap:32px;align-items:start}
-    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-    .pill{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);
-      padding:7px 12px;border-radius:999px;font-size:12px;font-weight:600}
-    .pill .dot{width:8px;height:8px;border-radius:50%;background:var(--accent);display:inline-block;margin-right:6px}
+    .wrap{max-width:1400px;margin:0 auto;padding:0 var(--pad)}
 
-    /* Buttons */
-    .btn{
-      display:inline-flex;background:var(--accent);color:#111;padding:10px 16px;
-      border-radius:12px;font-weight:800;text-decoration:none;margin-top:18px;
+  
+    .intro{
+      padding:clamp(18px,3vw,34px) 0 10px;
+      text-align:center;
+    }
+    .intro h1{
+      margin:0;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      font-size:clamp(44px,9vw,120px);
+      line-height:.92;
+      user-select:none;
+    }
+    .intro p{
+      margin:10px auto 0;
+      max-width:70ch;
+      color:rgba(0,0,0,.70);
+      font-weight:700;
+      line-height:1.7;
+      font-size:clamp(14px,1.6vw,18px);
     }
 
-    .btn-linkedin{
-      display:inline-flex;
+
+    .scrolly{
+      height:560vh; 
+      position:relative;
+      padding:clamp(10px,2vw,18px) 0;
+    }
+
+    .scrolly-sticky{
+      position:sticky;
+      top:calc(84px + var(--sat));
+      min-height:calc(100vh - (84px + var(--sat)));
+      display:grid;
+      place-items:center;
+    }
+
+    .island{
+      width:var(--isW);
+      height:var(--isH);
+      border-radius:var(--isR);
+      background:rgba(0,0,0,.92);
+      box-shadow:0 30px 90px rgba(0,0,0,.22);
+      border:1px solid rgba(0,0,0,.15);
+      position:relative;
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      padding:clamp(16px,2.6vw,26px);
+    }
+
+
+    .island-bg{
+      position:absolute;
+      inset:-10%;
+      background:url("wie-bg.png") center/cover no-repeat;
+      filter:saturate(1.02) contrast(1.02) blur(var(--bgBlur));
+      opacity:var(--bgO);
+      transform:scale(1.08);
+      z-index:0;
+    }
+    .island-bg::after{
+      content:"";
+      position:absolute;inset:0;
+      background:linear-gradient(90deg, rgba(0,0,0,.65), rgba(0,0,0,.20), rgba(0,0,0,.65));
+    }
+
+    .frame{
+      position:absolute;
+      inset:0;
+      display:grid;
+      grid-template-columns:auto 1fr;
       align-items:center;
-      gap:8px;
-      margin-top:18px;
-      background:#0A66C2;
-      color:white;
-      padding:10px 16px;
-      border-radius:12px;
-      font-weight:800;
-      text-decoration:none;
-      transition:background .2s, transform .2s;
-    }
-    .btn-linkedin:hover{
-      background:#004182;
-      transform:translateY(-2px);
+      gap:clamp(14px,2.2vw,24px);
+      padding:clamp(16px,2.6vw,26px);
+      opacity:0;
+      z-index:1;
+      pointer-events:none;
     }
 
-    /* Foto + loader */
-    .about-photo{position:relative;background:rgba(0,0,0,.18);padding:10px;border-radius:12px;box-shadow:var(--shadow-md)}
-    .about-bar{position:absolute;left:0;bottom:12px;height:4px;width:0%;background:var(--accent);border-radius:4px;transition:width 5s linear}
+    .frame.right{grid-template-columns:1fr auto}
+    .frame.right .word{text-align:right}
+    .frame.right .photo{justify-self:end}
 
-    /* Onderste oranje vlak */
-    .extra-block{
-      margin:28px -36px -36px;
-      padding:20px 36px 28px;
-      border-top:1px solid rgba(255,255,255,.08);
-      background:linear-gradient(
-        180deg,
-        rgba(252,148,3,.16) 0%,
-        rgba(252,148,3,.04) 60%,
-        rgba(0,0,0,.0) 100%
-      );
-      border-radius:0 0 var(--radius) var(--radius);
+    .photo{
+      width:clamp(96px,10vw,140px);
+      height:clamp(96px,10vw,140px);
+      border-radius:9999px;
+      overflow:hidden;
+      border:2px solid rgba(255,255,255,.18);
+      box-shadow:0 18px 50px rgba(0,0,0,.26);
+      background:#000;
+      will-change:transform, opacity;
+      transform:translateX(-200px) scale(.84) rotate(-2deg);
+    }
+    .frame.right .photo{
+      transform:translateX(200px) scale(.84) rotate(2deg);
+    }
+    .photo img{width:100%;height:100%;object-fit:cover;transform:scale(1.02)}
+
+    .word{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      font-size:clamp(52px,10vw,160px);
+      line-height:.85;
+      color:var(--bg);
+      user-select:none;
+      white-space:nowrap;
+      will-change:transform, opacity;
+      transform:translateY(22px);
+      opacity:.0;
     }
 
-    @media (max-width:900px){
+   
+    .frame.wie{
+      grid-template-columns:1fr;
+      justify-items:center;
+      text-align:center;
+      gap:10px;
+    }
+    .frame.wie .word{
+      white-space:normal;
+      font-size:clamp(44px,7.6vw,110px);
+      line-height:.92;
+      max-width:18ch;
+    }
+    .frame.wie .subhint{
+      color:rgba(255,255,255,.80);
+      font-weight:900;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:11px;
+      margin-top:2px;
+    }
+
+    .scrolly-hint{
+      position:absolute;
+      bottom:22px;
+      left:50%;
+      transform:translateX(-50%);
+      color:rgba(255,255,255,.72);
+      font-weight:900;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      font-size:11px;
+      user-select:none;
+      z-index:2;
+      pointer-events:none;
+    }
+
+    .panel{
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(0,0,0,.10);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:clamp(18px,3vw,34px);
+      overflow:hidden;
+    }
+
+    .two-col{
+      display:grid;
+      grid-template-columns:1.2fr .8fr;
+      gap:clamp(16px,3vw,34px);
+      align-items:start;
+    }
+
+    h2,h3{margin:0 0 10px;font-weight:900;letter-spacing:-.02em}
+    p.info{margin:0 0 12px;color:rgba(0,0,0,.70);font-weight:600;line-height:1.7}
+
+    .chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+    .chip{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(0,0,0,.92);
+      color:var(--bg);
+      font-weight:900;letter-spacing:.08em;text-transform:uppercase;font-size:12px;
+      user-select:none;
+    }
+
+    .cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
+    .btn{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:12px 16px;border-radius:999px;
+      text-decoration:none;font-weight:900;
+      border:1px solid rgba(0,0,0,.10);
+    }
+    .btn.dark{background:rgba(0,0,0,.92);color:#fff}
+    .btn.linkedin{background:#0A66C2;color:#fff;border-color:rgba(0,0,0,.10)}
+
+    .portrait{
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(0,0,0,.10);
+      box-shadow:0 20px 60px rgba(0,0,0,.16);
+      background:#000;
+      aspect-ratio: 4 / 5;
+      max-height:560px;
+    }
+    .portrait img{width:100%;height:100%;object-fit:cover}
+
+    .extra{
+      margin-top:clamp(16px,2.6vw,22px);
+      padding-top:clamp(16px,2.6vw,22px);
+      border-top:1px solid rgba(0,0,0,.12);
+    }
+
+    @media (max-width:980px){
       .two-col{grid-template-columns:1fr}
-      main{padding:92px 20px 32px}
-      .extra-block{margin:24px -20px -32px;padding:18px 20px 26px}
+      .portrait{max-width:520px}
+      .frame, .frame.right{grid-template-columns:auto 1fr}
+      .frame.right .word{text-align:left}
+      .frame.right .photo{justify-self:start}
+      .frame.right .photo{transform:translateX(200px) scale(.84) rotate(2deg)} /* JS overrides anyway */
+    }
+    @media (max-width:520px){
+      .word{font-size:clamp(46px,12vw,110px)}
+      .photo{width:92px;height:92px}
+      .frame.wie .word{font-size:clamp(40px,10vw,72px)}
+    }
+
+    @media (prefers-reduced-motion: reduce){
+      *{scroll-behavior:auto!important}
     }
   </style>
 </head>
-<body>
 
-  <!-- Navigatie -->
-  <div class="topbar"><div class="topbar-inner">
-    <nav class="nav">
-      <a href="index.html">Home</a>
-      <a href="wie-ben-ik.html" class="active">Wie ben ik</a>
-      <a href="uxui.html">UX/UI Design</a>
-      <a href="fotografie.html">Fotografie</a>
-      <a href="film.html">Film</a>
-      <a href="arduino.html">Arduino</a>
-    </nav>
-    <a class="logo-right" href="index.html"><img src="logo.png" alt="Logo Jason"></a>
-  </div></div>
+<body>
+  <a class="skip" href="#info">Direct naar info</a>
+
+  <div class="topbar">
+    <a class="brand" href="index.html" aria-label="Home">
+      <img src="logo.png" alt="Logo">
+      Jason Rayappu
+    </a>
+    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="drawer">
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+      Menu
+    </button>
+  </div>
+
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="bg" id="drawerBg"></div>
+    <div class="panel">
+      <div class="head">
+        Menu
+        <button class="close" id="drawerClose" aria-label="Sluiten">×</button>
+      </div>
+      <nav>
+        <a href="index.html">Home <span>↗</span></a>
+        <a class="active" href="wie-ben-ik.html">Wie ben ik <span>↗</span></a>
+        <a href="uxui.html">UX/UI Design <span>↗</span></a>
+        <a href="fotografie.html">Fotografie <span>↗</span></a>
+        <a href="film.html">Film <span>↗</span></a>
+        <a href="arduino.html">Arduino <span>↗</span></a>
+      </nav>
+    </div>
+  </div>
 
   <main>
-    <section class="panel">
+    <div class="wrap">
+      <section class="intro" aria-label="Intro">
+        <h1>wie ben ik?</h1>
+        <p></strong>Scroll <strong></strong>snel verder</p>
+      </section>
+    </div>
 
-      <h1>Wie ben ik</h1>
-      <p class="tagline">Jason Rayappu — CMD student met een liefde voor design, film en technologie.</p>
+   
+    <section class="scrolly" id="scrolly" aria-label="Ik ben Jason / Wie ben ik">
+      <div class="scrolly-sticky">
+        <div class="island" id="island">
+          <div class="island-bg" aria-hidden="true"></div>
 
-      <div class="two-col">
-        <div>
-          <h2>Verhalen, vorm en techniek</h2>
-          <p>
-            Ik ben Jason, 23 jaar en ik kom uit Oosterhout. Ik studeer Communicatie & Multimedia Design (CMD) 
-            en breng graag verhalen tot leven. Mijn opleidingstraject begon op de mavo en daarna volgde ik een mbo opleiding.
-            <br><br>
-            Tijdens mijn mbo periode ontdekte ik mijn passie voor design en creativiteit. Na het behalen van mijn diploma 
-            wist ik dat ik verder wilde in een richting waarin ik mijn creativiteit zonder grenzen kon ontwikkelen. 
-            Daarom koos ik voor de opleiding CMD, waar ik me helemaal op mijn plek voel. 
-            De brede en afwisselende opleiding sluit perfect aan bij mijn interesses.
-            <br><br>
-            Ik hou van uitdagingen en leer graag nieuwe dingen, ook als ze niet direct met ontwerpen te maken hebben. 
-            Ik geloof dat je nooit uitgeleerd raakt en altijd kunt verbeteren. 
-            Die mindset neem ik mee in mijn werk: bij elk ontwerp streef ik naar groei, vernieuwing en een beter resultaat.
-          </p>
-
-          <h3>Waar ik goed in ben</h3>
-          <div class="pill-row">
-            <span class="pill"><span class="dot"></span>UX/UI thinking</span>
-            <span class="pill"><span class="dot"></span>Figma prototypes</span>
-            <span class="pill"><span class="dot"></span>Film & montage</span>
-            <span class="pill"><span class="dot"></span>Arduino & interactie</span>
-            <span class="pill"><span class="dot"></span>Visual design</span>
+   
+          <div class="frame" data-step="0">
+            <div class="photo"><img src="IMG_6746.jpg" alt=""></div>
+            <div class="word">IK</div>
           </div>
 
-          <!-- BUTTONS -->
-          <a class="btn" href="uxui.html">Bekijk mijn UX/UI werk</a>
-          
-          <a class="btn-linkedin" href="https://nl.linkedin.com/in/jason-rayappu-8839101b8" target="_blank">
-            LinkedIn profiel
-          </a>
+    
+          <div class="frame right" data-step="1">
+            <div class="word">BEN</div>
+            <div class="photo"><img src="jason-street.jpg" alt=""></div>
+          </div>
 
-        </div>
+     
+          <div class="frame" data-step="2">
+            <div class="photo"><img src="jason-dinner.jpg" alt=""></div>
+            <div class="word">JASON</div>
+          </div>
 
-        <div class="about-photo">
-          <img id="about-img" src="IMG_6746.jpg" alt="Portret van Jason">
-          <div class="about-bar"></div>
+       
+          <div class="frame wie" data-step="3">
+            <div class="word" style="color:#fff;">over mij</div>
+            <div class="subhint">SCROLL VERDER VOOR INFO</div>
+          </div>
+
+          <div class="scrolly-hint">SCROLL ↓</div>
         </div>
       </div>
+    </section>
 
-      <!-- Extra blok -->
-      <div class="extra-block">
-        <h3>Extra over mij</h3>
-        <p>
-          Ik draag graag mijn steentje bij aan de community. Zo ben ik actief in de kerk, waar ik mijn creativiteit ook kan inzetten. 
-          Ik maak onder andere podcasts, dagelijkse content voor sociale media en doe regelmatig fotografie. 
-          Op deze manier kan ik mijn talenten gebruiken om anderen te inspireren en te ondersteunen.
-          <br><br>
-          Voor mijn huidige studie heb ik de opleiding Marketing & Communicatie afgerond. Hierdoor heb ik ervaring met het in de 
-          markt zetten van producten en het op een effectieve manier bereiken van consumenten. 
-          Die achtergrond helpt mij bij het ontwerpen van creatieve oplossingen die niet alleen mooi zijn, 
-          maar ook strategisch en doelgericht werken.
-        </p>
+ 
+    <section class="wrap" id="info" style="padding-top:24px;">
+      <div class="panel">
+        <div class="two-col">
+          <div>
+            <h2>Verhalen, vorm en techniek</h2>
+            <p class="info">
+              Ik ben Jason, 23 jaar en ik kom uit Oosterhout. Ik studeer Communicatie & Multimedia Design (CMD)
+              en breng graag verhalen tot leven. Mijn opleidingstraject begon op de mavo en daarna volgde ik een mbo opleiding.
+            </p>
+            <p class="info">
+              Tijdens mijn mbo periode ontdekte ik mijn passie voor design en creativiteit. Na het behalen van mijn diploma
+              wist ik dat ik verder wilde in een richting waarin ik mijn creativiteit zonder grenzen kon ontwikkelen.
+              Daarom koos ik voor de opleiding CMD, waar ik me helemaal op mijn plek voel.
+              De brede en afwisselende opleiding sluit perfect aan bij mijn interesses.
+            </p>
+            <p class="info">
+              Ik hou van uitdagingen en leer graag nieuwe dingen, ook als ze niet direct met ontwerpen te maken hebben.
+              Ik geloof dat je nooit uitgeleerd raakt en altijd kunt verbeteren.
+              Die mindset neem ik mee in mijn werk: bij elk ontwerp streef ik naar groei, vernieuwing en een beter resultaat.
+            </p>
+
+            <h3 style="margin-top:18px;">Waar ik goed in ben</h3>
+            <div class="chips">
+              <span class="chip">UX/UI thinking</span>
+              <span class="chip">Figma prototypes</span>
+              <span class="chip">Film & montage</span>
+              <span class="chip">Arduino & interactie</span>
+              <span class="chip">Visual design</span>
+            </div>
+
+            <div class="cta">
+              <a class="btn dark" href="uxui.html">Bekijk mijn UX/UI werk</a>
+              <a class="btn linkedin" href="https://nl.linkedin.com/in/jason-rayappu-8839101b8" target="_blank" rel="noopener">LinkedIn profiel</a>
+            </div>
+
+            <div class="extra">
+              <h3>Extra over mij</h3>
+              <p class="info">
+                Ik draag graag mijn steentje bij aan de community. Zo ben ik actief in de kerk, waar ik mijn creativiteit ook kan inzetten.
+                Ik maak onder andere podcasts, dagelijkse content voor sociale media en doe regelmatig fotografie.
+              </p>
+              <p class="info">
+                Voor mijn huidige studie heb ik de opleiding Marketing & Communicatie afgerond. Hierdoor heb ik ervaring met het in de
+                markt zetten van producten en het op een effectieve manier bereiken van consumenten. Die achtergrond helpt mij bij het ontwerpen
+                van creatieve oplossingen die niet alleen mooi zijn, maar ook strategisch en doelgericht werken.
+              </p>
+            </div>
+          </div>
+
+          <div class="portrait" aria-label="Portret">
+            <img src="IMG_6746.jpg" alt="Jason portret">
+          </div>
+        </div>
       </div>
-
     </section>
   </main>
 
-<script>
-/* === Slideshow + progress bar === */
-const aboutSlides=["IMG_6746.jpg","jason-street.jpg","jason-dinner.jpg"];
-const aboutImg=document.getElementById("about-img");
-const bar=document.querySelector(".about-bar");
-let aboutIndex=0;
+  <script>
 
-function showSlide(){
-  aboutIndex=(aboutIndex+1)%aboutSlides.length;
-  aboutImg.style.opacity=0;
-  setTimeout(()=>{
-    aboutImg.src=aboutSlides[aboutIndex];
-    aboutImg.style.opacity=1;
-  },300);
-}
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerBg = document.getElementById('drawerBg');
+    const drawerClose = document.getElementById('drawerClose');
 
-function resetBar(){
-  bar.style.transition="none";
-  bar.style.width="0%";
-  requestAnimationFrame(()=>{
-    requestAnimationFrame(()=>{
-      bar.style.transition="width 5s linear";
-      bar.style.width="100%";
-    });
-  });
-}
+    function openDrawer(){
+      drawer.classList.add('open');
+      menuBtn.setAttribute('aria-expanded','true');
+      document.body.style.overflow='hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    }
+    menuBtn.addEventListener('click', ()=> drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+    drawerBg.addEventListener('click', closeDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
 
-resetBar();
-setInterval(()=>{ showSlide(); resetBar(); },5000);
-</script>
 
+    const scrolly = document.getElementById('scrolly');
+    const island = document.getElementById('island');
+    const frames = Array.from(document.querySelectorAll('.frame'));
+
+    const clamp = (v,min,max)=> Math.max(min, Math.min(max, v));
+    const easeOutCubic = (t)=> 1 - Math.pow(1 - t, 3);
+    const easeOutBack = (t)=> {
+      const c1 = 1.70158;
+      const c3 = c1 + 1;
+      return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
+    };
+
+    function lerp(a,b,t){ return a + (b-a)*t; }
+
+    function setIslandVars(p){
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+
+
+      const W0 = Math.min(900, vw * 0.92);
+      const W1 = Math.min(1100, vw * 0.92);
+
+      const H0 = clamp(vh * 0.26, 170, 240);
+      const H1 = clamp(vh * 0.42, 250, 380);
+
+      const eRaw = clamp((p - 0.72) / 0.20, 0, 1);     
+      const e = easeOutCubic(eRaw);
+
+      const w = lerp(W0, W1, e);
+      const h = lerp(H0, H1, e);
+      const r = lerp(9999, 54, e);
+
+      document.documentElement.style.setProperty('--isW', w + 'px');
+      document.documentElement.style.setProperty('--isH', h + 'px');
+      document.documentElement.style.setProperty('--isR', r + 'px');
+
+      
+      document.documentElement.style.setProperty('--bgO', (0.00 + 0.95 * e).toFixed(3));
+      document.documentElement.style.setProperty('--bgBlur', (14 - 8 * e).toFixed(1) + 'px');
+    }
+
+    function stepVisibility(p, i, n){
+     
+      const stepLen = 1 / n;
+      const overlap = stepLen * 0.35;          
+      const s = i * stepLen - overlap;
+      const e = (i + 1) * stepLen + overlap;
+
+      const mid = (s + e) / 2;
+      const range = (e - s) / 2;
+
+      const raw = 1 - Math.abs(p - mid) / range;
+      return clamp(raw, 0, 1);
+    }
+
+    function updateScrolly(){
+      const rect = scrolly.getBoundingClientRect();
+      const total = Math.max(1, scrolly.offsetHeight - window.innerHeight);
+      const p = clamp((-rect.top) / total, 0, 1);
+
+      setIslandVars(p);
+
+      const n = 4;
+
+      frames.forEach((frame, i)=>{
+        const vis = stepVisibility(p, i, n);
+        const t = easeOutCubic(vis);
+        const pop = clamp(easeOutBack(t), 0, 1.25);
+
+        frame.style.opacity = vis;
+        frame.style.pointerEvents = vis > 0.65 ? 'auto' : 'none';
+
+        const photo = frame.querySelector('.photo');
+        const word  = frame.querySelector('.word');
+
+        if (frame.classList.contains('wie')){
+      
+          if (word){
+            word.style.transform = `translateY(${(1 - t) * 16}px) scale(${0.98 + t * 0.02})`;
+            word.style.opacity = (0.25 + 0.75 * t);
+          }
+          return;
+        }
+
+        const right = frame.classList.contains('right');
+        const dir = right ? 1 : -1;
+
+      
+        const fly = (1 - pop) * 260;       
+        const scale = 0.82 + 0.22 * pop;    
+        const rot = (1 - pop) * (right ? 6 : -6);
+
+        if (photo){
+          photo.style.transform = `translateX(${dir * fly}px) scale(${scale}) rotate(${rot}deg)`;
+          photo.style.opacity = (0.35 + 0.65 * t);
+        }
+        if (word){
+          word.style.transform = `translateY(${(1 - t) * 22}px)`;
+          word.style.opacity = (0.25 + 0.75 * t);
+        }
+      });
+    }
+
+    function rafLoop(){
+      updateScrolly();
+      requestAnimationFrame(rafLoop);
+    }
+    requestAnimationFrame(rafLoop);
+    window.addEventListener('resize', updateScrolly, {passive:true});
+  </script>
 </body>
 </html>
