@@ -31,11 +31,10 @@
       --radius:28px;
       --sat: env(safe-area-inset-top, 0px);
 
-
       --isW:min(900px, 92vw);
       --isH:220px;
       --isR:9999px;
-      --bgO:0;      
+      --bgO:0;
       --bgBlur:14px;
     }
 
@@ -54,7 +53,6 @@
     .skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
     .skip:focus{left:16px;top:16px;width:auto;height:auto;background:#fff;color:#111;padding:10px 14px;border-radius:12px;z-index:9999}
 
- 
     .topbar{
       position:fixed;left:0;right:0;top:0;
       height:calc(64px + var(--sat));
@@ -119,14 +117,12 @@
       border-color:rgba(0,0,0,.15);
     }
 
-   
     main{
       padding-top:calc(64px + var(--sat));
       padding-bottom:70px;
     }
     .wrap{max-width:1400px;margin:0 auto;padding:0 var(--pad)}
 
-  
     .intro{
       padding:clamp(18px,3vw,34px) 0 10px;
       text-align:center;
@@ -149,9 +145,8 @@
       font-size:clamp(14px,1.6vw,18px);
     }
 
-
     .scrolly{
-      height:560vh; 
+      height:560vh;
       position:relative;
       padding:clamp(10px,2vw,18px) 0;
     }
@@ -177,7 +172,6 @@
       place-items:center;
       padding:clamp(16px,2.6vw,26px);
     }
-
 
     .island-bg{
       position:absolute;
@@ -238,10 +232,9 @@
       white-space:nowrap;
       will-change:transform, opacity;
       transform:translateY(22px);
-      opacity:.0;
+      opacity:0;
     }
 
-   
     .frame.wie{
       grid-template-columns:1fr;
       justify-items:center;
@@ -253,6 +246,7 @@
       font-size:clamp(44px,7.6vw,110px);
       line-height:.92;
       max-width:18ch;
+      color:#fff;
     }
     .frame.wie .subhint{
       color:rgba(255,255,255,.80);
@@ -334,22 +328,107 @@
       border-top:1px solid rgba(0,0,0,.12);
     }
 
+    .extra-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+
+    .toggle{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      border:0;
+      background:transparent;
+      cursor:pointer;
+      padding:6px 0;
+      font-weight:900;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      font-size:11px;
+      color:rgba(0,0,0,.70);
+      user-select:none;
+    }
+
+    .toggle-track{
+      width:64px;
+      height:36px;
+      border-radius:999px;
+      position:relative;
+      background:rgba(0,0,0,.14);
+      border:1px solid rgba(0,0,0,.16);
+      box-shadow:inset 0 10px 18px rgba(0,0,0,.06);
+      transition:background .22s ease, border-color .22s ease, box-shadow .22s ease, transform .18s ease;
+    }
+
+    .toggle-knob{
+      position:absolute;
+      top:50%;
+      left:4px;
+      width:28px;
+      height:28px;
+      border-radius:999px;
+      background:#fff;
+      transform:translateY(-50%);
+      box-shadow:0 12px 26px rgba(0,0,0,.18);
+      transition:transform .26s cubic-bezier(.2,.9,.25,1.15), background .22s ease, box-shadow .22s ease;
+    }
+
+    .toggle[aria-checked="true"] .toggle-track{
+      background:rgba(0,0,0,.92);
+      border-color:rgba(0,0,0,.92);
+      box-shadow:inset 0 10px 22px rgba(0,0,0,.22);
+    }
+
+    .toggle[aria-checked="true"] .toggle-knob{
+      transform:translateY(-50%) translateX(28px);
+      background:var(--bg);
+      box-shadow:0 12px 28px rgba(0,0,0,.24), 0 0 0 6px rgba(242,198,107,.22);
+    }
+
+    .toggle:active .toggle-track{transform:scale(.98)}
+    .toggle:active .toggle-knob{box-shadow:0 10px 22px rgba(0,0,0,.18)}
+
+    .toggle-state{
+      min-width:34px;
+      text-align:left;
+      color:rgba(0,0,0,.62);
+    }
+    .toggle[aria-checked="true"] .toggle-state{color:rgba(0,0,0,.78)}
+
+    .extra-content{
+      overflow:hidden;
+      max-height:0px;
+      opacity:0;
+      transform:translateY(-10px);
+      transition:max-height .55s cubic-bezier(.2,.85,.2,1), opacity .25s ease, transform .35s ease;
+      will-change:max-height, opacity, transform;
+    }
+    .extra-content.open{
+      opacity:1;
+      transform:none;
+    }
+
     @media (max-width:980px){
       .two-col{grid-template-columns:1fr}
       .portrait{max-width:520px}
       .frame, .frame.right{grid-template-columns:auto 1fr}
       .frame.right .word{text-align:left}
       .frame.right .photo{justify-self:start}
-      .frame.right .photo{transform:translateX(200px) scale(.84) rotate(2deg)} /* JS overrides anyway */
     }
     @media (max-width:520px){
       .word{font-size:clamp(46px,12vw,110px)}
       .photo{width:92px;height:92px}
       .frame.wie .word{font-size:clamp(40px,10vw,72px)}
+      .toggle-track{width:60px;height:34px}
+      .toggle-knob{width:26px;height:26px}
+      .toggle[aria-checked="true"] .toggle-knob{transform:translateY(-50%) translateX(26px)}
     }
 
     @media (prefers-reduced-motion: reduce){
-      *{scroll-behavior:auto!important}
+      .extra-content{transition:none}
+      .toggle-track,.toggle-knob{transition:none}
     }
   </style>
 </head>
@@ -389,38 +468,33 @@
   <main>
     <div class="wrap">
       <section class="intro" aria-label="Intro">
-        <h1>wie ben ik?</h1>
-        <p></strong>Scroll <strong></strong>snel verder</p>
+        <h1>Wie ben ik?</h1>
+        <p>Scroll verder om de intro te zien en daarna mijn info.</p>
       </section>
     </div>
 
-   
-    <section class="scrolly" id="scrolly" aria-label="Ik ben Jason / Wie ben ik">
+    <section class="scrolly" id="scrolly" aria-label="Ik ben Jason / Over mij">
       <div class="scrolly-sticky">
         <div class="island" id="island">
           <div class="island-bg" aria-hidden="true"></div>
 
-   
           <div class="frame" data-step="0">
             <div class="photo"><img src="IMG_6746.jpg" alt=""></div>
             <div class="word">IK</div>
           </div>
 
-    
           <div class="frame right" data-step="1">
             <div class="word">BEN</div>
             <div class="photo"><img src="jason-street.jpg" alt=""></div>
           </div>
 
-     
           <div class="frame" data-step="2">
             <div class="photo"><img src="jason-dinner.jpg" alt=""></div>
             <div class="word">JASON</div>
           </div>
 
-       
           <div class="frame wie" data-step="3">
-            <div class="word" style="color:#fff;">over mij</div>
+            <div class="word">OVER MIJ</div>
             <div class="subhint">SCROLL VERDER VOOR INFO</div>
           </div>
 
@@ -429,7 +503,6 @@
       </div>
     </section>
 
- 
     <section class="wrap" id="info" style="padding-top:24px;">
       <div class="panel">
         <div class="two-col">
@@ -466,16 +539,26 @@
             </div>
 
             <div class="extra">
-              <h3>Extra over mij</h3>
-              <p class="info">
-                Ik draag graag mijn steentje bij aan de community. Zo ben ik actief in de kerk, waar ik mijn creativiteit ook kan inzetten.
-                Ik maak onder andere podcasts, dagelijkse content voor sociale media en doe regelmatig fotografie.
-              </p>
-              <p class="info">
-                Voor mijn huidige studie heb ik de opleiding Marketing & Communicatie afgerond. Hierdoor heb ik ervaring met het in de
-                markt zetten van producten en het op een effectieve manier bereiken van consumenten. Die achtergrond helpt mij bij het ontwerpen
-                van creatieve oplossingen die niet alleen mooi zijn, maar ook strategisch en doelgericht werken.
-              </p>
+              <div class="extra-head">
+                <h3 style="margin:0;">Extra over mij</h3>
+
+                <button class="toggle" id="extraToggle" type="button" role="switch" aria-checked="false" aria-controls="extraContent" aria-label="Toon extra over mij">
+                  <span class="toggle-track" aria-hidden="true"><span class="toggle-knob"></span></span>
+                  <span class="toggle-state" id="toggleState"></span>
+                </button>
+              </div>
+
+              <div class="extra-content" id="extraContent" aria-hidden="true">
+                <p class="info" style="margin-top:14px;">
+                  Ik draag graag mijn steentje bij aan de community. Zo ben ik actief in de kerk, waar ik mijn creativiteit ook kan inzetten.
+                  Ik maak onder andere podcasts, dagelijkse content voor sociale media en doe regelmatig fotografie.
+                </p>
+                <p class="info">
+                  Voor mijn huidige studie heb ik de opleiding Marketing & Communicatie afgerond. Hierdoor heb ik ervaring met het in de
+                  markt zetten van producten en het op een effectieve manier bereiken van consumenten. Die achtergrond helpt mij bij het ontwerpen
+                  van creatieve oplossingen die niet alleen mooi zijn, maar ook strategisch en doelgericht werken.
+                </p>
+              </div>
             </div>
           </div>
 
@@ -488,7 +571,6 @@
   </main>
 
   <script>
-
     const menuBtn = document.getElementById('menuBtn');
     const drawer = document.getElementById('drawer');
     const drawerBg = document.getElementById('drawerBg');
@@ -509,9 +591,7 @@
     drawerClose.addEventListener('click', closeDrawer);
     document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeDrawer(); });
 
-
     const scrolly = document.getElementById('scrolly');
-    const island = document.getElementById('island');
     const frames = Array.from(document.querySelectorAll('.frame'));
 
     const clamp = (v,min,max)=> Math.max(min, Math.min(max, v));
@@ -521,13 +601,11 @@
       const c3 = c1 + 1;
       return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
     };
-
-    function lerp(a,b,t){ return a + (b-a)*t; }
+    const lerp = (a,b,t)=> a + (b-a)*t;
 
     function setIslandVars(p){
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-
 
       const W0 = Math.min(900, vw * 0.92);
       const W1 = Math.min(1100, vw * 0.92);
@@ -535,7 +613,7 @@
       const H0 = clamp(vh * 0.26, 170, 240);
       const H1 = clamp(vh * 0.42, 250, 380);
 
-      const eRaw = clamp((p - 0.72) / 0.20, 0, 1);     
+      const eRaw = clamp((p - 0.72) / 0.20, 0, 1);
       const e = easeOutCubic(eRaw);
 
       const w = lerp(W0, W1, e);
@@ -546,15 +624,13 @@
       document.documentElement.style.setProperty('--isH', h + 'px');
       document.documentElement.style.setProperty('--isR', r + 'px');
 
-      
       document.documentElement.style.setProperty('--bgO', (0.00 + 0.95 * e).toFixed(3));
       document.documentElement.style.setProperty('--bgBlur', (14 - 8 * e).toFixed(1) + 'px');
     }
 
     function stepVisibility(p, i, n){
-     
       const stepLen = 1 / n;
-      const overlap = stepLen * 0.35;          
+      const overlap = stepLen * 0.35;
       const s = i * stepLen - overlap;
       const e = (i + 1) * stepLen + overlap;
 
@@ -586,7 +662,6 @@
         const word  = frame.querySelector('.word');
 
         if (frame.classList.contains('wie')){
-      
           if (word){
             word.style.transform = `translateY(${(1 - t) * 16}px) scale(${0.98 + t * 0.02})`;
             word.style.opacity = (0.25 + 0.75 * t);
@@ -597,9 +672,8 @@
         const right = frame.classList.contains('right');
         const dir = right ? 1 : -1;
 
-      
-        const fly = (1 - pop) * 260;       
-        const scale = 0.82 + 0.22 * pop;    
+        const fly = (1 - pop) * 260;
+        const scale = 0.82 + 0.22 * pop;
         const rot = (1 - pop) * (right ? 6 : -6);
 
         if (photo){
@@ -619,6 +693,57 @@
     }
     requestAnimationFrame(rafLoop);
     window.addEventListener('resize', updateScrolly, {passive:true});
+
+    const extraToggle = document.getElementById('extraToggle');
+    const extraContent = document.getElementById('extraContent');
+    const toggleState = document.getElementById('toggleState');
+
+    function openExtra(){
+      extraToggle.setAttribute('aria-checked', 'true');
+      toggleState.textContent = '';
+      extraContent.classList.add('open');
+      extraContent.setAttribute('aria-hidden', 'false');
+
+      extraContent.style.maxHeight = '0px';
+      const h = extraContent.scrollHeight;
+      requestAnimationFrame(()=>{
+        extraContent.style.maxHeight = h + 'px';
+      });
+
+      const done = () => {
+        if (extraToggle.getAttribute('aria-checked') === 'true'){
+          extraContent.style.maxHeight = 'none';
+        }
+        extraContent.removeEventListener('transitionend', done);
+      };
+      extraContent.addEventListener('transitionend', done);
+    }
+
+    function closeExtra(){
+      extraToggle.setAttribute('aria-checked', 'false');
+      toggleState.textContent = '';
+      extraContent.setAttribute('aria-hidden', 'true');
+
+      const h = extraContent.scrollHeight;
+      extraContent.style.maxHeight = h + 'px';
+
+      requestAnimationFrame(()=>{
+        extraContent.style.maxHeight = '0px';
+        extraContent.classList.remove('open');
+      });
+    }
+
+    extraToggle.addEventListener('click', ()=>{
+      const on = extraToggle.getAttribute('aria-checked') === 'true';
+      if (on) closeExtra(); else openExtra();
+    });
+
+    extraToggle.addEventListener('keydown', (e)=>{
+      if (e.key === 'Enter' || e.key === ' '){
+        e.preventDefault();
+        extraToggle.click();
+      }
+    });
   </script>
 </body>
 </html>
