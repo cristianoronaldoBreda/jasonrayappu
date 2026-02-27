@@ -1,431 +1,613 @@
 <!doctype html>
-<html lang="nl" data-theme="dark">
+<html lang="nl">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Fotografie — Jason CMD Portfolio</title>
+  <title>Fotografie — Jason Rayappu</title>
   <meta name="description" content="Conceptuele fotografie en beeldexperimenten van Jason Rayappu.">
-  <meta name="theme-color" content="#fc9403"/>
+  <meta name="theme-color" content="#F2C66B"/>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+  <link rel="manifest" href="site.webmanifest">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --accent:#fc9403; 
-      --bg:#0e0e10; 
-      --card:#15161a; 
-      --muted:#9aa3ad; 
-      --text:#eef2f6;
-      --radius:14px;
-      --shadow-lg:0 12px 30px rgba(2,6,23,.5);
-      --shadow-md:0 8px 24px rgba(2,6,23,.35);
-      --heading:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
-      --body:'Inter',system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      --bg:#F2C66B;
+      --text:#0B0B0C;
+      --white:#FFFFFF;
+      --black:#0B0B0C;
+
+      --shadow:0 20px 60px rgba(0,0,0,.18);
+      --shadow2:0 30px 90px rgba(0,0,0,.22);
+
+      --gap:clamp(16px,2.4vw,44px);
+      --pad:clamp(14px,2.2vw,28px);
+      --radius:28px;
+
+      --sat: env(safe-area-inset-top, 0px);
     }
 
     *{box-sizing:border-box}
-    html,body{height:100%;margin:0;background:var(--bg);color:var(--text);font-family:var(--body)}
-    img{max-width:100%;display:block}
-
-    /* Topbar */
-    .topbar{position:fixed;top:0;left:0;right:0;height:68px;z-index:120;pointer-events:none}
-    .topbar-inner{position:relative;height:100%}
-    .nav{
-      position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
-      display:flex;gap:10px;background:rgba(10,10,12,.5);backdrop-filter:blur(10px);
-      padding:10px 14px;border-radius:999px;pointer-events:auto;border:1px solid rgba(255,255,255,.08)
-    }
-    .nav a{
+    html,body{height:100%;margin:0}
+    body{
+      font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+      background:var(--bg);
       color:var(--text);
-      text-decoration:none;
-      font-weight:700;
-      font-size:14px;
-      padding:8px 12px;
-      border-radius:10px;
-      transition:color .2s, background .2s, transform .2s;
+      overflow-x:hidden;
+      scroll-behavior:smooth;
     }
-    .nav a:hover,
-    .nav a.active{
-      color:var(--accent);
-      background:rgba(252,148,3,.12);
-    }
-    .logo-right{position:absolute;right:20px;top:50%;transform:translateY(-50%);pointer-events:auto}
-    .logo-right img{height:56px;filter:drop-shadow(0 3px 10px rgba(0,0,0,.35));transition:.25s}
-    .logo-right:hover img{transform:scale(1.04);opacity:.95}
+    img{max-width:100%;display:block}
+    :focus-visible{outline:3px solid rgba(0,0,0,.45);outline-offset:3px;border-radius:12px}
 
-    /* Layout */
-    main{min-height:100vh;display:grid;place-items:center;padding:92px 32px 40px}
+   
+    .skip{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+    .skip:focus{left:16px;top:16px;width:auto;height:auto;background:#fff;color:#111;padding:10px 14px;border-radius:12px;z-index:9999}
+
+    .topbar{
+      position:fixed;left:0;right:0;top:0;
+      height:calc(64px + var(--sat));
+      padding:var(--sat) var(--pad) 0;
+      display:flex;align-items:center;justify-content:space-between;
+      z-index:50;
+      background:rgba(242,198,107,.88);
+      backdrop-filter:blur(10px);
+      border-bottom:1px solid rgba(0,0,0,.08);
+    }
+
+    .brand{
+      display:flex;align-items:center;gap:10px;
+      text-decoration:none;color:var(--black);
+      font-weight:900;text-transform:uppercase;letter-spacing:.08em;font-size:12px;
+      user-select:none;
+    }
+    .brand img{width:34px;height:34px;border-radius:999px}
+
+    .menu{
+      display:inline-flex;align-items:center;gap:10px;
+      padding:10px 14px;border-radius:999px;
+      background:rgba(0,0,0,.92);
+      color:#fff;
+      font-weight:900;
+      letter-spacing:.06em;
+      border:0;cursor:pointer;
+    }
+    .burger{width:18px;height:12px;position:relative;display:inline-block}
+    .burger span{position:absolute;left:0;right:0;height:2px;border-radius:2px;background:#fff}
+    .burger span:nth-child(1){top:0}
+    .burger span:nth-child(2){top:5px}
+    .burger span:nth-child(3){top:10px}
+
+    .drawer{position:fixed;inset:0;display:none;z-index:80}
+    .drawer.open{display:block}
+    .drawer .bg{position:absolute;inset:0;background:rgba(0,0,0,.45);backdrop-filter:blur(8px)}
+    .drawer .panel{
+      position:absolute;top:calc(14px + var(--sat));right:14px;
+      width:min(420px,92vw);
+      border-radius:22px;background:#fff;
+      box-shadow:var(--shadow2);
+      overflow:hidden;
+    }
+    .drawer .head{
+      display:flex;align-items:center;justify-content:space-between;
+      padding:14px 16px;border-bottom:1px solid rgba(0,0,0,.08);
+      font-weight:900;
+    }
+    .drawer .close{border:0;background:transparent;font-size:26px;cursor:pointer;padding:6px 10px;border-radius:12px}
+    .drawer nav{padding:14px}
+    .drawer nav a{
+      display:flex;justify-content:space-between;align-items:center;
+      text-decoration:none;color:#111;
+      padding:14px 14px;border-radius:16px;
+      background:rgba(242,198,107,.30);
+      border:1px solid rgba(0,0,0,.10);
+      font-weight:900;
+      margin-bottom:10px;
+    }
+    .drawer nav a.active{
+      background:rgba(0,0,0,.92);
+      color:#fff;
+      border-color:rgba(0,0,0,.15);
+    }
+
+    
+    main{
+      padding-top:calc(88px + var(--sat));
+      padding-bottom:70px;
+    }
+    .wrap{max-width:1400px;margin:0 auto;padding:0 var(--pad)}
+
+    .page-hero{
+      display:grid;
+      gap:18px;
+      align-items:center;
+      justify-items:center;
+      text-align:center;
+      padding:clamp(18px,3vw,34px) 0 clamp(10px,2vw,18px);
+    }
+
+    .title-row{
+      width:100%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:clamp(8px,2vw,16px);
+      user-select:none;
+    }
+    .tword{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      font-size:clamp(44px, 12vw, 150px);
+      line-height:1;
+      white-space:nowrap;
+    }
+    .pill{
+      position:relative;
+      height:clamp(48px,6.5vw,90px);
+      background:#fff;
+      border-radius:9999px;
+      flex:1 1 auto;
+      max-width:760px;
+      min-width:140px;
+      overflow:visible;
+    }
+    .knob{
+      position:absolute;
+      top:50%;
+      transform:translate(-50%,-50%);
+      border-radius:9999px;
+      background:rgba(0,0,0,.92);
+      box-shadow:0 18px 50px rgba(0,0,0,.18);
+      will-change:left,width,height;
+    }
+
+    .headline{
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-.06em;
+      font-size:clamp(42px,9vw,130px);
+      line-height:.92;
+      margin:0;
+      user-select:none;
+    }
+    .sub{
+      margin:0;
+      max-width:88ch;
+      color:rgba(0,0,0,.70);
+      font-weight:600;
+      line-height:1.7;
+      font-size:clamp(14px,1.6vw,18px);
+    }
+
     .panel{
-      background:linear-gradient(180deg,rgba(255,255,255,.03),rgba(255,255,255,.02));
+      background:rgba(255,255,255,.75);
+      border:1px solid rgba(0,0,0,.10);
       border-radius:var(--radius);
-      padding:36px;
-      box-shadow:var(--shadow-lg);
-      width:min(1100px,92vw);
+      box-shadow:var(--shadow);
+      padding:clamp(18px,3vw,34px);
       position:relative;
       overflow:hidden;
     }
-    h1,h2,h3{font-family:var(--heading);margin-top:0}
-    p{color:var(--muted);line-height:1.6}
-    .tagline{color:var(--muted);margin-top:-4px;margin-bottom:18px}
 
     .photo-layout{
       display:grid;
-      grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);
-      gap:28px;
+      grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);
+      gap:clamp(16px,3vw,34px);
       align-items:start;
+      margin-top:18px;
     }
 
-    /* Grote slideshow links */
+
     .featured{
-      border-radius:18px;
-      overflow:hidden;
       position:relative;
-      box-shadow:var(--shadow-md);
-      background:#000;
-      border:1px solid rgba(255,255,255,.18);
+      border-radius:22px;
+      overflow:hidden;
+      box-shadow:0 30px 90px rgba(0,0,0,.22);
+      border:1px solid rgba(0,0,0,.10);
+      background:#ddd;
       cursor:pointer;
+      height:clamp(380px,60vh,560px);
     }
     .featured img{
       width:100%;
       height:100%;
-      max-height:520px;
       object-fit:cover;
-      display:block;
-      transition:opacity .4s ease;
+      transform:scale(1.02);
+      filter:saturate(1.02) contrast(1.02);
+      transition:opacity .35s ease;
     }
-    .featured-caption{
-      position:absolute;
-      left:16px;bottom:26px;right:16px;
-      background:linear-gradient(180deg,rgba(0,0,0,.05),rgba(0,0,0,.85));
-      padding:12px 14px;
-      border-radius:12px;
-      font-size:13px;
-    }
-    .featured-caption h3{margin:0 0 4px;font-size:15px}
-    .featured-caption p{margin:0;font-size:13px;color:#d7dde5}
 
-    /* Progress rand / bar onderin */
+
     .featured-progress{
       position:absolute;
       left:16px;
       right:16px;
-      bottom:10px;
+      bottom:12px;
       height:3px;
       border-radius:999px;
-      background:rgba(255,255,255,.15);
+      background:rgba(255,255,255,.35);
       overflow:hidden;
+      z-index:3;
     }
     .featured-progress-bar{
       height:100%;
       width:0;
-      background:var(--accent);
+      background:rgba(0,0,0,.92);
       border-radius:inherit;
       transition:width 5s linear;
     }
 
-    /* Lijst rechts */
+
+    h2,h3{margin:0 0 10px;font-weight:900;letter-spacing:-.02em}
+    p{margin:0 0 12px;color:rgba(0,0,0,.70);font-weight:600;line-height:1.7}
+
     .mini-grid{
       display:grid;
       grid-template-columns:1fr;
-      gap:16px;
-      margin-top:6px;
+      gap:14px;
+      margin-top:12px;
     }
+
     .mini-card{
       display:grid;
-      grid-template-columns:120px minmax(0,1fr);
+      grid-template-columns:110px minmax(0,1fr);
       gap:12px;
       align-items:center;
-      background:var(--card);
-      border-radius:12px;
-      border:1px solid rgba(255,255,255,.06);
-      padding:10px;
-      box-shadow:var(--shadow-md);
+      background:#fff;
+      border-radius:22px;
+      border:1px solid rgba(0,0,0,.10);
+      padding:12px;
+      box-shadow:0 14px 34px rgba(0,0,0,.12);
       cursor:pointer;
+      transition:transform .18s ease, box-shadow .18s ease;
+    }
+    .mini-card:hover{transform:translateY(-3px);box-shadow:0 24px 60px rgba(0,0,0,.18)}
+    .mini-card .thumb{
+      border-radius:14px;
+      overflow:hidden;
+      height:96px;
+      border:1px solid rgba(0,0,0,.10);
+      background:#000;
     }
     .mini-card img{
-      width:100%;
-      height:90px;
+      width:100%;height:100%;
       object-fit:cover;
-      border-radius:10px;
+      transform:scale(1.02);
     }
-    .mini-card h4{margin:0 0 4px;font-size:14px}
-    .mini-card p{margin:0;font-size:12px;color:var(--muted)}
+    .mini-card h4{margin:0 0 6px;font-weight:900}
+    .mini-card p{margin:0;color:rgba(0,0,0,.65);font-weight:600;line-height:1.55;font-size:13px}
 
-    .orb-bg{
-      position:absolute;
-      inset:-40%;
-      background:
-        radial-gradient(circle at 0 40%, rgba(252,148,3,.3), transparent 55%),
-        radial-gradient(circle at 90% 0%, rgba(252,148,3,.25), transparent 55%);
-      opacity:.38;
-      pointer-events:none;
-      z-index:-1;
-    }
-
-    /* Lightbox */
+   
     .lightbox{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.85);
+      position:fixed;inset:0;
+      background:rgba(0,0,0,.82);
+      backdrop-filter:blur(6px);
       display:none;
-      align-items:center;
-      justify-content:center;
-      z-index:300;
-      padding:20px;
+      align-items:center;justify-content:center;
+      z-index:120;
+      padding:18px;
     }
     .lightbox.open{display:flex}
-    .lightbox-inner{
-      max-width:min(1000px,95vw);
+    .lb-inner{
+      width:min(1100px,96vw);
       max-height:90vh;
       position:relative;
     }
-    .lightbox-inner img{
+    .lb-inner img{
       width:100%;
-      height:100%;
+      max-height:90vh;
       object-fit:contain;
-      border-radius:16px;
-      box-shadow:0 18px 60px rgba(0,0,0,.8);
+      border-radius:22px;
       background:#000;
+      box-shadow:0 30px 90px rgba(0,0,0,.5);
     }
-    .lightbox-close{
-      position:absolute;
-      top:-10px;
-      right:-10px;
-      background:#111;
-      border:none;
-      color:#fff;
-      font-size:22px;
-      line-height:1;
-      width:32px;
-      height:32px;
-      border-radius:999px;
-      cursor:pointer;
-      box-shadow:0 6px 18px rgba(0,0,0,.6);
+    .lb-close{
+      position:absolute;top:-10px;right:-10px;
+      width:38px;height:38px;border-radius:999px;
+      border:0;cursor:pointer;
+      background:rgba(0,0,0,.92);
+      color:#fff;font-size:22px;line-height:1;
+      box-shadow:0 14px 34px rgba(0,0,0,.35);
     }
 
-    @media (max-width:960px){
-      main{padding:92px 20px 32px}
+
+    @media (max-width:980px){
       .photo-layout{grid-template-columns:1fr}
+      .featured{height:clamp(360px,56vh,520px)}
       .mini-card{grid-template-columns:100px minmax(0,1fr)}
+    }
+    @media (max-width:520px){
+      .featured{height:min(54vh, 420px)}
+      .featured-progress{left:14px;right:14px}
+      .mini-card{grid-template-columns:92px minmax(0,1fr)}
+      .mini-card .thumb{height:86px}
     }
   </style>
 </head>
-<body>
 
-  <!-- Lightbox -->
-  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog">
-    <div class="lightbox-inner">
-      <button class="lightbox-close" id="lb-close" aria-label="Sluiten">×</button>
-      <img id="lb-img" src="" alt="">
-    </div>
-  </div>
+<body>
+  <a class="skip" href="#content">Direct naar inhoud</a>
+
 
   <div class="topbar">
-    <div class="topbar-inner">
-      <nav class="nav">
-        <a href="index.html">Home</a>
-        <a href="wie-ben-ik.html">Wie ben ik</a>
-        <a href="uxui.html">UX/UI Design</a>
-        <a href="fotografie.html" class="active">Fotografie</a>
-        <a href="film.html">Film</a>
-        <a href="arduino.html">Arduino</a>
+    <a class="brand" href="index.html" aria-label="Home">
+      <img src="logo.png" alt="Logo">
+      Jason Rayappu
+    </a>
+
+    <button class="menu" id="menuBtn" aria-expanded="false" aria-controls="drawer">
+      <span class="burger" aria-hidden="true"><span></span><span></span><span></span></span>
+      Menu
+    </button>
+  </div>
+
+
+  <div class="drawer" id="drawer" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="bg" id="drawerBg"></div>
+    <div class="panel">
+      <div class="head">
+        Menu
+        <button class="close" id="drawerClose" aria-label="Sluiten">×</button>
+      </div>
+      <nav>
+        <a href="index.html">Home <span>↗</span></a>
+        <a href="wie-ben-ik.html">Wie ben ik <span>↗</span></a>
+        <a href="uxui.html">UX/UI Design <span>↗</span></a>
+        <a class="active" href="fotografie.html">Fotografie <span>↗</span></a>
+        <a href="film.html">Film <span>↗</span></a>
+        <a href="arduino.html">Arduino <span>↗</span></a>
       </nav>
-      <a class="logo-right" href="index.html"><img src="logo.png" alt="Logo Jason"></a>
     </div>
   </div>
 
-  <main>
-    <section class="panel">
-      <div class="orb-bg" aria-hidden="true"></div>
+  <!-- Lightbox -->
+  <div class="lightbox" id="lightbox" aria-modal="true" role="dialog" aria-label="Afbeelding vergroten">
+    <div class="lb-inner">
+      <button class="lb-close" id="lbClose" aria-label="Sluiten">×</button>
+      <img id="lbImg" src="" alt="">
+    </div>
+  </div>
 
-      <h1>Fotografie</h1>
-      <p class="tagline">Beelden die vragen oproepen in plaats van antwoorden geven.</p>
+  <main id="content">
+    <div class="wrap">
 
-      <div class="photo-layout">
-        <!-- Linker kant: SLIDESHOW -->
-        <div class="featured">
-          <img id="featured-img"
-               src="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG"
-               alt="Demonstratiefoto met neussonde als modeaccessoire"
-               data-full="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG">
-          <div class="featured-caption">
-            <h3 id="featured-title">Demonstratiefoto — zorg als mode</h3>
-            <p id="featured-text">
-              Een ‘hippe’ neussonde als modeaccessoire. Door het beeld esthetisch te maken,
-              schuurt het tussen kwetsbaarheid, identiteit en esthetiek.
+      <header class="page-hero" aria-label="Pagina intro">
+        <div class="title-row" aria-hidden="true">
+          <div class="tword">FOTO</div>
+          <div class="pill" id="pillTitle">
+            <div class="knob" id="knobTitle"></div>
+          </div>
+          <div class="tword">GRAFIE</div>
+        </div>
+
+        <h1 class="headline">Fotografie</h1>
+        <p class="sub">Beelden die vragen oproepen in plaats van antwoorden geven.</p>
+      </header>
+
+      <section class="panel">
+        <div class="photo-layout">
+
+       
+          <div class="featured" id="featured" aria-label="Slideshow (klik voor groot)">
+            <img id="featuredImg"
+                 src="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG"
+                 alt="Demonstratiefoto met neussonde als modeaccessoire">
+
+            <div class="featured-progress" aria-hidden="true">
+              <div class="featured-progress-bar" id="progressBar"></div>
+            </div>
+          </div>
+
+          <div>
+            <h2>Conceptuele beelden</h2>
+            <p>
+              <em>Fotografie is een van mijn grootste passies. Ik heb niet altijd een dure camera nodig om een goed beeld te maken.</em>
+              <br><br>
+              Voor mij draait het om het verhaal achter de foto. In mijn fotografie zoek ik naar beelden die iets losmaken bij de kijker:
+              geen perfecte plaatjes, maar foto’s die je laten twijfelen, prikkelen of je afvragen of je je er eigenlijk wel prettig bij voelt.
             </p>
+            <p>
+              Ik heb jarenlang actief fotografie beoefend en daardoor veel ervaring opgedaan in het maken en beoordelen van beelden.
+              Inmiddels deel ik die kennis ook met anderen binnen de community.
+            </p>
+
+            <h3>Series & experimenten</h3>
+
+            <div class="mini-grid">
+              <article class="mini-card" data-full="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG" data-alt="Demonstratiefoto met neussonde als modeaccessoire">
+                <div class="thumb"><img src="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG" alt="Demonstratiefoto thumbnail"></div>
+                <div>
+                  <h4>Demonstratiefoto</h4>
+                  <p>De medische neussonde als mode-item: mooi én ongemakkelijk tegelijk.</p>
+                </div>
+              </article>
+
+              <article class="mini-card" data-full="Scherm­afbeelding 2025-10-27 om 15.55.26.png" data-alt="AI-beeld met gebroken potlood">
+                <div class="thumb"><img src="Scherm­afbeelding 2025-10-27 om 15.55.26.png" alt="AI thumbnail"></div>
+                <div>
+                  <h4>AI & creativiteit</h4>
+                  <p>Breekt technologie creativiteit af, of vormt het die opnieuw?</p>
+                </div>
+              </article>
+
+              <article class="mini-card" data-full="kerk.jpg" data-alt="Kerkdienst foto">
+                <div class="thumb"><img src="kerk.jpg" alt="Kerk thumbnail"></div>
+                <div>
+                  <h4>Kerkdienst</h4>
+                  <p>Een krachtig beeld van vertrouwen en toewijding.</p>
+                </div>
+              </article>
+            </div>
           </div>
-          <div class="featured-progress">
-            <div class="featured-progress-bar" id="featured-progress-bar"></div>
-          </div>
+
         </div>
-
-        <!-- Rechter kant: tekst + kleinere kaarten -->
-        <div>
-          <h2>Conceptuele beelden</h2>
-          <p>
-            <em>Fotografie is een van mijn grootste passies. Ik heb niet altijd een dure camera nodig om een goed beeld te maken </em><br><br/> voor mij draait het vooral om het verhaal achter de foto. Toch kan ik zeker ook werken met professionele camera’s.
-
-            In mijn fotografie zoek ik naar beelden die iets losmaken bij de kijker. Geen perfecte plaatjes, maar foto’s die je laten twijfelen, prikkelen of je afvragen of je je er eigenlijk wel prettig bij voelt. Daarbij geloof ik dat kleur en warmte al een emotie kunnen oproepen, zonder dat er letterlijk mensen of gezichtsuitdrukkingen te zien hoeven zijn. Een foto kan dus voelen, zonder dat hij iets hoeft te zeggen.
-          <p>
-            Ik heb jarenlang actief fotografie beoefend en daardoor veel ervaring opgedaan in het maken en beoordelen van beelden. Inmiddels deel ik die kennis ook met anderen binnen de community, waar ik mensen help hun eigen fotografievaardigheden te ontwikkelen.
-          </p>
-
-          <h3>Series & experimenten</h3>
-          <div class="mini-grid">
-            <!-- Maagsonde in het lijstje -->
-            <article class="mini-card">
-              <img src="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG"
-                   alt="Demonstratiefoto met neussonde als modeaccessoire"
-                   data-full="2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG">
-              <div>
-                <h4>Demonstratiefoto</h4>
-                <p>
-                  De medische neussonde als mode-item: een beeld dat tegelijk mooi
-                  én ongemakkelijk mag voelen.
-                </p>
-              </div>
-            </article>
-
-            <article class="mini-card">
-              <img src="Scherm­afbeelding 2025-10-27 om 15.55.26.png"
-                   alt="AI-beeld met gebroken potlood"
-                   data-full="Scherm­afbeelding 2025-10-27 om 15.55.26.png">
-              <div>
-                <h4>AI & creativiteit</h4>
-                <p>
-                  Het gebroken potlood staat voor de botsing tussen menselijke verbeelding
-                  en generatieve AI. Breekt technologie creativiteit af, of vormt het die opnieuw?
-                </p>
-              </div>
-            </article>
-
-            <article class="mini-card">
-                <img src="kerk.jpg"
-                alt="AI-beeld met gebroken potlood"
-                data-full="kerk.jpg">
-              <div>
-                <h4>Kerkdienst</h4>
-                <p>
-                    Dit is een foto die ik heb gemaakt in de kerk. Voor mij is het een krachtig beeld dat laat zien waar de jongen in gelooft. Tegelijkertijd weerspiegelt het ook iets waar ik zelf voor sta: vertrouwen, overtuiging en toewijding zonder woorden te hoeven gebruiken.
-                </p>
-              </div>
-            </article>
-          </div>
-        </div>
-      </div>
-    </section>
+      </section>
+    </div>
   </main>
 
   <script>
-    // ------------ SLIDESHOW ------------
+ 
+    const menuBtn = document.getElementById('menuBtn');
+    const drawer = document.getElementById('drawer');
+    const drawerBg = document.getElementById('drawerBg');
+    const drawerClose = document.getElementById('drawerClose');
+
+    function openDrawer(){
+      drawer.classList.add('open');
+      menuBtn.setAttribute('aria-expanded','true');
+      document.body.style.overflow='hidden';
+    }
+    function closeDrawer(){
+      drawer.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded','false');
+      document.body.style.overflow='';
+    }
+    menuBtn.addEventListener('click', ()=> drawer.classList.contains('open') ? closeDrawer() : openDrawer());
+    drawerBg.addEventListener('click', closeDrawer);
+    drawerClose.addEventListener('click', closeDrawer);
+
+  
+    const lightbox = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    const lbClose = document.getElementById('lbClose');
+
+    function openLB(src, alt){
+      lbImg.src = src;
+      lbImg.alt = alt || '';
+      lightbox.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeLB(){
+      lightbox.classList.remove('open');
+      lbImg.src = '';
+      lbImg.alt = '';
+      document.body.style.overflow = '';
+    }
+    lbClose.addEventListener('click', closeLB);
+    lightbox.addEventListener('click', (e)=>{ if(e.target === lightbox) closeLB(); });
+    document.addEventListener('keydown', (e)=>{ if(e.key==='Escape'){ closeDrawer(); closeLB(); } });
+
+    
     const slides = [
-      {
-        src: "2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG",
-        alt: "Demonstratiefoto met neussonde als modeaccessoire",
-        title: "Demonstratiefoto — zorg als mode",
-        text: "Een ‘hippe’ neussonde als modeaccessoire. Door het beeld esthetisch te maken, schuurt het tussen kwetsbaarheid, identiteit en esthetiek."
-      },
-      {
-        src: "Scherm­afbeelding 2025-10-27 om 15.55.26.png",
-        alt: "AI-beeld met gebroken potlood",
-        title: "AI & creativiteit",
-        text: "Het gebroken potlood verbeeldt de botsing tussen menselijke verbeelding en generatieve AI: breekt technologie creativiteit af, of vormt het die opnieuw?"
-      },
-     
-      {
-        src: "kerk.jpg",
-        alt: "Jesus killed your anxiety",
-       title: "Kerk portret",
-       text: "Een krachtige boodschap."
-       }
+      { src:"2af59ba6-6f4a-4203-ab77-7cd8c730cdac.JPG", alt:"Demonstratiefoto met neussonde als modeaccessoire" },
+      { src:"Scherm­afbeelding 2025-10-27 om 15.55.26.png", alt:"AI-beeld met gebroken potlood" },
+      { src:"kerk.jpg", alt:"Kerkdienst foto" }
     ];
 
-    const featuredImg   = document.getElementById('featured-img');
-    const featuredTitle = document.getElementById('featured-title');
-    const featuredText  = document.getElementById('featured-text');
-    const progressBar   = document.getElementById('featured-progress-bar');
+    const featured = document.getElementById('featured');
+    const featuredImg = document.getElementById('featuredImg');
+    const progressBar = document.getElementById('progressBar');
 
-    let currentSlide = 0;
+    let i = 0;
+    const DURATION = 5000;
+    let timer = null;
 
     function startProgress(){
-      if(!progressBar) return;
-      // reset animatie
       progressBar.style.transition = 'none';
       progressBar.style.width = '0%';
-      // kleine delay zodat de browser het reset registreert
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          progressBar.style.transition = 'width 5s linear';
+      requestAnimationFrame(()=> {
+        requestAnimationFrame(()=> {
+          progressBar.style.transition = `width ${DURATION}ms linear`;
           progressBar.style.width = '100%';
         });
       });
     }
 
-    function showSlide(index){
-      if(!slides.length) return;
-      const s = slides[index];
-
+    function showSlide(idx){
+      const s = slides[idx];
       featuredImg.style.opacity = 0;
-      setTimeout(() => {
+      setTimeout(()=>{
         featuredImg.src = s.src;
         featuredImg.alt = s.alt;
-        featuredImg.setAttribute('data-full', s.src);
-        featuredTitle.textContent = s.title;
-        featuredText.textContent = s.text;
         featuredImg.style.opacity = 1;
-      }, 200);
-
+      }, 180);
       startProgress();
     }
 
-    // start op eerste slide
-    showSlide(currentSlide);
-
-    // elke 5s volgende slide
-    if(slides.length > 1){
-      setInterval(() => {
-        currentSlide = (currentSlide + 1) % slides.length;
-        showSlide(currentSlide);
-      }, 5000);
+    function next(){
+      i = (i + 1) % slides.length;
+      showSlide(i);
     }
 
-    // ------------ LIGHTBOX (grote weergave) ------------
-    const lightbox = document.getElementById('lightbox');
-    const lbImg    = document.getElementById('lb-img');
-    const lbClose  = document.getElementById('lb-close');
-
-    function openLightbox(src, alt){
-      lbImg.src = src;
-      lbImg.alt = alt || '';
-      lightbox.classList.add('open');
-    }
-    function closeLightbox(){
-      lightbox.classList.remove('open');
-      lbImg.src = '';
-      lbImg.alt = '';
+    function start(){
+      if (timer) clearInterval(timer);
+      timer = setInterval(next, DURATION);
+      startProgress();
     }
 
-    lbClose.addEventListener('click', closeLightbox);
-    lightbox.addEventListener('click', e => {
-      if(e.target === lightbox) closeLightbox();
-    });
-    document.addEventListener('keydown', e => {
-      if(e.key === 'Escape') closeLightbox();
+    showSlide(i);
+    start();
+
+
+    featured.addEventListener('click', ()=>{
+      openLB(featuredImg.src, featuredImg.alt);
     });
 
-    // Klik op grote foto
-    featuredImg.addEventListener('click', () => {
-      const src = featuredImg.getAttribute('data-full') || featuredImg.src;
-      openLightbox(src, featuredImg.alt);
-    });
 
-    // Klik op mini-kaarten
-    document.querySelectorAll('.mini-card img').forEach(img => {
-      img.addEventListener('click', e => {
-        e.stopPropagation();
-        const src = img.getAttribute('data-full') || img.src;
-        openLightbox(src, img.alt);
+    document.querySelectorAll('.mini-card').forEach(card=>{
+      card.addEventListener('click', ()=>{
+        const src = card.getAttribute('data-full');
+        const alt = card.getAttribute('data-alt');
+        const found = slides.findIndex(s => s.src === src);
+        if (found >= 0) i = found;
+        featuredImg.src = src;
+        featuredImg.alt = alt || '';
+        start();
       });
     });
+
+  
+    const pillTitle = document.getElementById('pillTitle');
+    const knobTitle = document.getElementById('knobTitle');
+
+    let targetX = 0.5;
+    let cur = 0.5;
+
+    function clamp(v,min,max){ return Math.max(min, Math.min(max, v)); }
+
+    function setKnob(pill, knob, t){
+      const r = pill.getBoundingClientRect();
+      const h = r.height;
+      const scale = (window.innerWidth < 420) ? 0.98 : 1.06;
+      const knobSize = h * scale;
+      const pad = h * 0.06;
+
+      knob.style.width = knobSize + "px";
+      knob.style.height = knobSize + "px";
+
+      const travel = r.width - knobSize - (pad*2);
+      if (travel <= 0){
+        knob.style.left = (r.width / 2) + "px";
+        return;
+      }
+      knob.style.left = (pad + t * travel + knobSize/2) + "px";
+    }
+
+    window.addEventListener('mousemove', (e)=>{
+      targetX = clamp(e.clientX / window.innerWidth, 0, 1);
+    }, {passive:true});
+
+    let autoT = 0;
+    function tick(){
+      autoT += 0.012;
+      const auto = (Math.sin(autoT) * 0.5 + 0.5);
+      const x = (window.matchMedia('(hover:hover)').matches) ? targetX : auto;
+
+      cur += (x - cur) * 0.12;
+      setKnob(pillTitle, knobTitle, cur);
+
+      requestAnimationFrame(tick);
+    }
+    requestAnimationFrame(tick);
+
+    window.addEventListener('resize', ()=> setKnob(pillTitle, knobTitle, cur), {passive:true});
   </script>
 </body>
 </html>
